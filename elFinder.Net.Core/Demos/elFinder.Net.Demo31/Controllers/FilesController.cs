@@ -60,7 +60,7 @@ namespace elFinder.Net.Demo31.Controllers
           "/api/files/thumb/",
           thumbnailDirectory: PathHelper.GetFullPath("./thumb"))
       {
-        StartDirectory = Startup.MapPath("images/articleThumbs"),
+        StartDirectory = Startup.MapPath("images"),
         Name = "Images",
         MaxUploadConnections = 3
       };

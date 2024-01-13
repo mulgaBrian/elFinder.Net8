@@ -7,37 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\images\articles\**" />
-    <Compile Remove="wwwroot\images\articleThumbs\**" />
-    <Compile Remove="wwwroot\images\authors\**" />
-    <Compile Remove="wwwroot\images\books\**" />
-    <Compile Remove="wwwroot\images\image\**" />
-    <Compile Remove="wwwroot\images\pages\**" />
-    <Compile Remove="wwwroot\images\topics\**" />
-    <Content Remove="wwwroot\images\articles\**" />
-    <Content Remove="wwwroot\images\articleThumbs\**" />
-    <Content Remove="wwwroot\images\authors\**" />
-    <Content Remove="wwwroot\images\books\**" />
-    <Content Remove="wwwroot\images\image\**" />
-    <Content Remove="wwwroot\images\pages\**" />
-    <Content Remove="wwwroot\images\topics\**" />
-    <EmbeddedResource Remove="wwwroot\images\articles\**" />
-    <EmbeddedResource Remove="wwwroot\images\articleThumbs\**" />
-    <EmbeddedResource Remove="wwwroot\images\authors\**" />
-    <EmbeddedResource Remove="wwwroot\images\books\**" />
-    <EmbeddedResource Remove="wwwroot\images\image\**" />
-    <EmbeddedResource Remove="wwwroot\images\pages\**" />
-    <EmbeddedResource Remove="wwwroot\images\topics\**" />
-    <None Remove="wwwroot\images\articles\**" />
-    <None Remove="wwwroot\images\articleThumbs\**" />
-    <None Remove="wwwroot\images\authors\**" />
-    <None Remove="wwwroot\images\books\**" />
-    <None Remove="wwwroot\images\image\**" />
-    <None Remove="wwwroot\images\pages\**" />
-    <None Remove="wwwroot\images\topics\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.1" />
   </ItemGroup>
 
