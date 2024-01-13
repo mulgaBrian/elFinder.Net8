@@ -37,12 +37,9 @@ Plugins:
 - **Plugins/elFinder.Net.Plugins.FileSystemQuotaManagement**: enable quota management and restriction features.
 
 ## Credits
-**elFinder.Net.Core** is based on the project [elFinder.NetCore](https://github.com/gordon-matt/elFinder.NetCore) of Matt Gordon. Many thanks for the excellent works.
+**elFinder.Net*** is based on the project [elFinder.Net.Core](https://github.com/trannamtrung1st/elFinder.Net.Core) of trannamtrung1st. Many thanks for the excellent works.
 For those who may get confused about which package to use, try and find the one that best suits your project.
 I create this with some modification that suits my use cases. Some of the main differences are:
-- Enable better security, ACL (for both Frontend and Backend) 
-- Support .NET Standard 2.0 (remove ASP.NET Core dependency).
-- Customizable through models, interfaces, and events.
-- More features and extensibility: plugins, interceptors, etc.
-- Support more commands.
+- Remove .NET Standard 2.0 and use ASP.NET .Net 8.
+- Add Video thumbnails using ImageSharp.AVCodecFormats [ImageSharp.AVCodecFormats](https://github.com/hey-red/ImageSharp.AVCodecFormats)
 - Follow the specification from https://github.com/Studio-42/elFinder/wiki more strictly.
