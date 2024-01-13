@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{F39F8DEC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "elFinder.Net.AdvancedDemo", "Demos\elFinder.Net.AdvancedDemo\elFinder.Net.AdvancedDemo.csproj", "{CCCDDEDD-526A-45AF-BBFF-70CC6543C300}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "elFinder.Net.Demo31", "Demos\elFinder.Net.Demo31\elFinder.Net.Demo31.csproj", "{6AF06FAA-2613-4218-87F0-34F1A84D77CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "elFinder.Net.Demo8", "Demos\elFinder.Net.Demo31\elFinder.Net.Demo8.csproj", "{6AF06FAA-2613-4218-87F0-34F1A84D77CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "elFinder.Net.Plugins.FileSystemQuotaManagement", "Plugins\elFinder.Net.Plugins.FileSystemQuotaManagement\elFinder.Net.Plugins.FileSystemQuotaManagement.csproj", "{23E11159-24A7-4492-8319-75C6730D0C67}"
 EndProject

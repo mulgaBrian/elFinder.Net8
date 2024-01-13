@@ -27,7 +27,7 @@
       "destination": "wwwroot/lib/tinymce"
     },
     {
-      "library": "elfinder@2.1.62",
+      "library": "elfinder@2.1.65",
       "destination": "wwwroot/lib/elfinder"
     },
     {
