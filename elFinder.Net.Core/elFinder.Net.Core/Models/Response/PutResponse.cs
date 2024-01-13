@@ -2,13 +2,15 @@
 
 namespace elFinder.Net.Core.Models.Response
 {
-    public class PutResponse
+  public class PutResponse
+  {
+    public PutResponse()
     {
-        public PutResponse()
-        {
-            changed = new List<object>();
-        }
-
-        public List<object> changed { get; set; }
+      changed = [];
     }
+
+#pragma warning disable IDE1006 // Naming Styles
+    public List<object> changed { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+  }
 }

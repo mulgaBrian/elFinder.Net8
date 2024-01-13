@@ -8,7 +8,7 @@ namespace elFinder.Net.Core.Extensions
     {
         public static string GetParentHash(this IFileSystem fileSystem, IVolume volume, IPathParser pathParser)
         {
-            if (volume.IsRoot(fileSystem)) return null;
+            if (volume.IsRoot(fileSystem)) return null!;
 
             string parentPath = volume.IsRoot(fileSystem.Parent) ?
                 string.Empty : volume.GetRelativePath(fileSystem.Parent);

@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class CommandRequiredException : ConnectorException
+    public sealed class CommandRequiredException : ConnectorException
     {
         public CommandRequiredException()
         {

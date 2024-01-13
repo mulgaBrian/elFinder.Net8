@@ -9,46 +9,46 @@ using System.Linq;
 
 namespace elFinder.Net.AspNetCore.Extensions
 {
-    public static class ConnectorResultExtensions
+  public static class ConnectorResultExtensions
+  {
+    public static IActionResult ToActionResult(this ConnectorResult result, HttpContext httpContext)
     {
-        public static IActionResult ToActionResult(this ConnectorResult result, HttpContext httpContext)
-        {
-            if (result.Cookies?.Any() == true)
-            {
-                foreach (var cookie in result.Cookies)
-                    httpContext.Response.Cookies.Append(cookie.Key, cookie.Value);
-            }
+      if (result.Cookies?.Any() == true)
+      {
+        foreach (KeyValuePair<string, string> cookie in result.Cookies)
+          httpContext.Response.Cookies.Append(cookie.Key, cookie.Value);
+      }
 
-            switch (result.ResultType)
-            {
-                case ResultType.Success:
-                    if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
-                        return new NoContentResult();
+      switch (result.ResultType)
+      {
+        case ResultType.Success:
+          if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
+            return new NoContentResult();
 
-                    switch (result.ContentType)
-                    {
-                        case ContentTypeNames.Application.Json:
-                            return new JsonResult(result.Response)
-                            {
-                                StatusCode = (int)result.StatusCode
-                            };
-                    }
-                    break;
-                case ResultType.File:
-                    {
-                        if (result.Response is FileResponse fileResp)
-                            return new ElFinderFileResult(fileResp);
+          switch (result.ContentType)
+          {
+            case ContentTypeNames.Application.Json:
+              return new JsonResult(result.Response)
+              {
+                StatusCode = (int)result.StatusCode
+              };
+          }
+          break;
+        case ResultType.File:
+          {
+            if (result.Response is FileResponse fileResp)
+              return new ElFinderFileResult(fileResp);
 
-                        throw new ArgumentException("Not a valid FileResponse");
-                    }
-                case ResultType.Error:
-                    return new JsonResult(result.Response)
-                    {
-                        StatusCode = (int)result.StatusCode
-                    };
-            }
+            throw new ArgumentException("Not a valid FileResponse");
+          }
+        case ResultType.Error:
+          return new JsonResult(result.Response)
+          {
+            StatusCode = (int)result.StatusCode
+          };
+      }
 
-            throw new NotImplementedException();
-        }
+      throw new NotImplementedException();
     }
+  }
 }

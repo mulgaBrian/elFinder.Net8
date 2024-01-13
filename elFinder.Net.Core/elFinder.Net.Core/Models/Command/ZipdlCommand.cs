@@ -1,6 +1,6 @@
 ﻿namespace elFinder.Net.Core.Models.Command
 {
-    public class ZipdlCommand : TargetsCommand
+    public sealed class ZipdlCommand : TargetsCommand
     {
         public string ReqId { get; set; }
         public byte Download { get; set; }

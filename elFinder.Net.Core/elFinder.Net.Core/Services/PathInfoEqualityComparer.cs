@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Services
 {
-    public class PathInfoEqualityComparer : IEqualityComparer<PathInfo>
+    public sealed class PathInfoEqualityComparer : IEqualityComparer<PathInfo>
     {
         public bool Equals(PathInfo x, PathInfo y)
         {

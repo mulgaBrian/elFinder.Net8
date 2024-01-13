@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class CommandParamsException : ConnectorException
+    public sealed class CommandParamsException : ConnectorException
     {
         public CommandParamsException(string cmd)
         {

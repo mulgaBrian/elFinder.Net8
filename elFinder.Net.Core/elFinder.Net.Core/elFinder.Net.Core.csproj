@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>Yevhen Noskov, Leniel Macaferi, Matt Gordon, Flavio Smirne, Trung Tran</Authors>
     <Company>N/A</Company>
     <Copyright></Copyright>
@@ -13,20 +13,26 @@
     <IsPackable>true</IsPackable>
     <Description>
       An elFinder backend connector with less magic code and more compatibility.
-      This enables .NET Standard 2.0 projects to easily integrate elFinder functionalities.
+      This enables .NET 8 projects to easily integrate elFinder functionalities.
       See the example project on Github for usage detail.
     </Description>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>1.5.0</Version>
+    <Version>8.0.0</Version>
+    <OutputType>Library</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>annotations</Nullable>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Primitives" Version="2.1.6" />
-    <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.1.14" />
-    <PackageReference Include="MimeTypeMapOfficial" Version="1.0.15" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.0.0" />
+    <PackageReference Include="ImageSharp.AVCodecFormats" Version="4.4.0" />
+    <PackageReference Include="ImageSharp.AVCodecFormats.Native" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="8.0.0" />
+    <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>

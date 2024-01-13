@@ -1,6 +1,6 @@
 ﻿namespace elFinder.Net.Core.Models.Command
 {
-    public class ArchiveCommand : TargetsCommand
+    public sealed class ArchiveCommand : TargetsCommand
     {
         public string Target { get; set; }
         public string Name { get; set; }

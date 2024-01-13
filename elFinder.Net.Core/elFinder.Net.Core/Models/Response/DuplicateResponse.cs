@@ -2,13 +2,15 @@
 
 namespace elFinder.Net.Core.Models.Response
 {
-    public class DuplicateResponse
+  public class DuplicateResponse
+  {
+    public DuplicateResponse()
     {
-        public DuplicateResponse()
-        {
-            added = new List<object>();
-        }
-
-        public List<object> added { get; set; }
+      added = [];
     }
+
+#pragma warning disable IDE1006 // Naming Styles
+    public List<object> added { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+  }
 }

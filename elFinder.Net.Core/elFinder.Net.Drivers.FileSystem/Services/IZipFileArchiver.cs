@@ -41,7 +41,7 @@ namespace elFinder.Net.Drivers.FileSystem.Services
             {
                 var (currentDir, currentFromDir) = queue.Dequeue();
 
-                string entryName = Path.Combine(currentFromDir,
+                string entryName = Path.Join(currentFromDir,
                     currentDir == dir ? $"{rootDirReplacement ?? currentDir.Name}/" : $"{currentDir.Name}/");
                 zipArchive.CreateEntry(entryName);
 

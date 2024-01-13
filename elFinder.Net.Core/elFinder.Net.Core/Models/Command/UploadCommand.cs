@@ -6,13 +6,13 @@ using System.Collections.Generic;
 
 namespace elFinder.Net.Core.Models.Command
 {
-    public class UploadCommand : TargetCommand
+    public sealed class UploadCommand : TargetCommand
     {
         public const string ChunkFail = "chunkfail";
 
         public UploadCommand()
         {
-            Hashes = new Dictionary<string, string>();
+            Hashes = [];
         }
 
         public IEnumerable<IFormFileWrapper> Upload { get; set; }

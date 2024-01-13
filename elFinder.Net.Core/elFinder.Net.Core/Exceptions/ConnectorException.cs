@@ -15,9 +15,9 @@ namespace elFinder.Net.Core.Exceptions
         {
         }
 
-        protected ConnectorException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+        //protected ConnectorException(SerializationInfo info, StreamingContext context) : base(info, context)
+        //{
+        //}
 
         protected ConnectorException(string message, Exception innerException) : base(message, innerException)
         {

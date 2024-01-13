@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class FileTypeNotAllowException : ConnectorException
+    public sealed class FileTypeNotAllowException : ConnectorException
     {
         public FileTypeNotAllowException()
         {

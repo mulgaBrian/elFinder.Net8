@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class UploadFileSizeException : ConnectorException
+    public sealed class UploadFileSizeException : ConnectorException
     {
         public UploadFileSizeException()
         {

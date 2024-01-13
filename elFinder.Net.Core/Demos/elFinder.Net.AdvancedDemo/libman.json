@@ -3,32 +3,84 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "twitter-bootstrap@3.3.7",
-      "destination": "wwwroot/lib/bootstrap/dist"
+      "library": "twitter-bootstrap@5.3.2",
+      "destination": "wwwroot/lib/bootstrap"
     },
     {
-      "library": "jquery@2.2.0",
-      "destination": "wwwroot/lib/jquery/dist"
+      "library": "popper.js@2.11.8",
+      "destination": "wwwroot/lib/popper.js"
     },
     {
-      "library": "jquery-validate@1.14.0",
+      "library": "jquery@3.7.1",
+      "destination": "wwwroot/lib/jquery"
+    },
+    {
+      "library": "jquery-validate@1.20.0",
       "destination": "wwwroot/lib/jquery-validate"
     },
     {
-      "library": "jquery-validation-unobtrusive@3.2.6",
+      "library": "jquery-validation-unobtrusive@4.0.0",
       "destination": "wwwroot/lib/jquery-validation-unobtrusive"
     },
     {
-      "library": "tinymce@4.7.7",
-      "destination": "wwwroot/lib/tinymce-dist"
+      "library": "tinymce@5.10.9",
+      "destination": "wwwroot/lib/tinymce"
     },
     {
-      "library": "jqueryui@1.12.1",
-      "destination": "wwwroot/lib/jquery-ui"
-    },
-    {
-      "library": "elfinder@2.1.61",
+      "library": "elfinder@2.1.62",
       "destination": "wwwroot/lib/elfinder"
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery-ui@1.13.2",
+      "destination": "wwwroot/lib/jquery-ui/",
+      "files": [
+        "AUTHORS.txt",
+        "CONTRIBUTING.md",
+        "LICENSE.txt",
+        "README.md",
+        "dist/jquery-ui.js",
+        "dist/jquery-ui.min.js",
+        "dist/themes/base/images/ui-icons_444444_256x240.png",
+        "dist/themes/base/images/ui-icons_555555_256x240.png",
+        "dist/themes/base/images/ui-icons_777620_256x240.png",
+        "dist/themes/base/images/ui-icons_777777_256x240.png",
+        "dist/themes/base/images/ui-icons_cc0000_256x240.png",
+        "dist/themes/base/images/ui-icons_ffffff_256x240.png",
+        "dist/themes/base/jquery-ui.css",
+        "dist/themes/base/jquery-ui.min.css",
+        "dist/themes/base/theme.css",
+        "dist/themes/redmond/images/ui-bg_glass_75_d0e5f5_1x400.png",
+        "dist/themes/redmond/images/ui-bg_glass_85_dfeffc_1x400.png",
+        "dist/themes/redmond/images/ui-bg_glass_95_fef1ec_1x400.png",
+        "dist/themes/redmond/images/ui-bg_gloss-wave_55_5c9ccc_500x100.png",
+        "dist/themes/redmond/images/ui-bg_inset-hard_100_f5f8f9_1x100.png",
+        "dist/themes/redmond/images/ui-bg_inset-hard_100_fcfdfd_1x100.png",
+        "dist/themes/redmond/images/ui-icons_217bc0_256x240.png",
+        "dist/themes/redmond/images/ui-icons_2e83ff_256x240.png",
+        "dist/themes/redmond/images/ui-icons_469bdd_256x240.png",
+        "dist/themes/redmond/images/ui-icons_6da8d5_256x240.png",
+        "dist/themes/redmond/images/ui-icons_cd0a0a_256x240.png",
+        "dist/themes/redmond/images/ui-icons_d8e7f3_256x240.png",
+        "dist/themes/redmond/images/ui-icons_f9bd01_256x240.png",
+        "dist/themes/redmond/jquery-ui.css",
+        "dist/themes/redmond/jquery-ui.min.css",
+        "dist/themes/redmond/theme.css",
+        "dist/themes/smoothness/images/ui-bg_glass_55_fbf9ee_1x400.png",
+        "dist/themes/smoothness/images/ui-bg_glass_75_dadada_1x400.png",
+        "dist/themes/smoothness/images/ui-bg_glass_95_fef1ec_1x400.png",
+        "dist/themes/smoothness/images/ui-bg_highlight-soft_75_cccccc_1x100.png",
+        "dist/themes/smoothness/images/ui-bg_glass_65_ffffff_1x400.png",
+        "dist/themes/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png",
+        "dist/themes/smoothness/images/ui-icons_222222_256x240.png",
+        "dist/themes/smoothness/images/ui-icons_2e83ff_256x240.png",
+        "dist/themes/smoothness/images/ui-icons_454545_256x240.png",
+        "dist/themes/smoothness/images/ui-icons_888888_256x240.png",
+        "dist/themes/smoothness/images/ui-icons_cd0a0a_256x240.png",
+        "dist/themes/smoothness/jquery-ui.css",
+        "dist/themes/smoothness/jquery-ui.min.css",
+        "dist/themes/smoothness/theme.css"
+      ]
     }
   ]
 }

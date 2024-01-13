@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace elFinder.Net.AspNetCore.Results
 {
-    public class ElFinderFileResult : FileStreamResult
+    public sealed class ElFinderFileResult : FileStreamResult
     {
         public ElFinderFileResult(FileResponse fileResponse) : base(fileResponse.FileStream, fileResponse.ContentType)
         {
@@ -30,7 +30,7 @@ namespace elFinder.Net.AspNetCore.Results
             {
                 var contentDispositionHeader = new ContentDispositionHeaderValue(ContentDisposition);
                 contentDispositionHeader.SetHttpFileName(FileDownloadName);
-                context.HttpContext.Response.Headers.Add(HeaderNames.ContentDisposition, contentDispositionHeader.ToString());
+                context.HttpContext.Response.Headers.Append(HeaderNames.ContentDisposition, contentDispositionHeader.ToString());
                 FileDownloadName = null;
             }
 

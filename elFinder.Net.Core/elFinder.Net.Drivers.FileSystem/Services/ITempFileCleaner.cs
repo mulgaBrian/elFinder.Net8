@@ -116,7 +116,7 @@ namespace elFinder.Net.Drivers.FileSystem.Services
                             var notExpiredFolders = Directory.EnumerateDirectories(scanFolder, "*", SearchOption.AllDirectories)
                                 .Where(f =>
                                 {
-                                    var statusFile = Path.Combine(f, options.CurrentValue.StatusFile);
+                                    var statusFile = Path.Join(f, options.CurrentValue.StatusFile);
                                     if (File.Exists(statusFile))
                                     {
                                         var lastWriteTime = File.GetLastWriteTimeUtc(statusFile);

@@ -10,7 +10,7 @@ namespace elFinder.Net.Core.Extensions
         {
             if (eventList == null) return;
 
-            foreach (var inv in eventList)
+            foreach (DelType inv in eventList)
             {
                 await ((inv?.DynamicInvoke(args) as Task) ?? Task.CompletedTask);
             }

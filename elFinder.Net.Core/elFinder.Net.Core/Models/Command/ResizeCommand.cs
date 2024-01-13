@@ -1,6 +1,6 @@
 ﻿namespace elFinder.Net.Core.Models.Command
 {
-    public class ResizeCommand : TargetCommand
+    public sealed class ResizeCommand : TargetCommand
     {
         public const string Mode_Resize = "resize";
         public const string Mode_Crop = "crop";

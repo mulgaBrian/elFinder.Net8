@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class ExistsException : ConnectorException
+    public sealed class ExistsException : ConnectorException
     {
         public ExistsException(string name)
         {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace elFinder.Net.Core.Models.Command
 {
-    public class PasteCommand : TargetsCommand
+    public sealed class PasteCommand : TargetsCommand
     {
         public PasteCommand()
         {
-            Hashes = new Dictionary<string, string>();
+            Hashes = [];
         }
 
         public string Dst { get; set; }

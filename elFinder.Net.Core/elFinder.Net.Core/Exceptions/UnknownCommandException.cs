@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class UnknownCommandException : ConnectorException
+    public sealed class UnknownCommandException : ConnectorException
     {
         public UnknownCommandException()
         {

@@ -29,17 +29,17 @@ namespace elFinder.Net.Plugins.FileSystemQuotaManagement.Extensions
                             return currentSize;
                         });
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         storageManager.RemoveDirectoryStorage(directory.FullName);
-                        throw ex;
+                        throw;
                     }
                 });
             }
-            catch (Exception ex)
+            catch
             {
                 storageManager.RemoveDirectoryStorage(directory.FullName);
-                throw ex;
+                throw;
             }
         }
     }

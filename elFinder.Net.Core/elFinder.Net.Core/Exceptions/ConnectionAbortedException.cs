@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class ConnectionAbortedException : ConnectorException
+    public sealed class ConnectionAbortedException : ConnectorException
     {
         public ConnectionAbortedException()
         {

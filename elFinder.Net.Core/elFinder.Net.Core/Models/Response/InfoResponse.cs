@@ -2,13 +2,15 @@
 
 namespace elFinder.Net.Core.Models.Response
 {
-    public class InfoResponse
+  public class InfoResponse
+  {
+    public InfoResponse()
     {
-        public InfoResponse()
-        {
-            files = new List<object>();
-        }
-
-        public List<object> files { get; protected set; }
+      files = [];
     }
+
+#pragma warning disable IDE1006 // Naming Styles
+    public List<object> files { get; protected set; }
+#pragma warning restore IDE1006 // Naming Styles
+  }
 }

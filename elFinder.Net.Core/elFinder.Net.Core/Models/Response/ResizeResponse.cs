@@ -6,9 +6,11 @@ namespace elFinder.Net.Core.Models.Response
     {
         public ResizeResponse()
         {
-            changed = new List<object>();
+            changed = [];
         }
 
-        public List<object> changed { get; set; }
-    }
+#pragma warning disable IDE1006 // Naming Styles
+    public List<object> changed { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+  }
 }

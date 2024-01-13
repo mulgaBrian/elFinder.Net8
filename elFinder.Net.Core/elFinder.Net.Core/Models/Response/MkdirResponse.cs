@@ -2,13 +2,15 @@
 
 namespace elFinder.Net.Core.Models.Response
 {
-    public class MkdirResponse : MkfileResponse
+  public class MkdirResponse : MkfileResponse
+  {
+    public MkdirResponse() : base()
     {
-        public MkdirResponse() : base()
-        {
-            hashes = new Dictionary<string, string>();
-        }
-
-        public Dictionary<string, string> hashes { get; set; }
+      hashes = [];
     }
+
+#pragma warning disable IDE1006 // Naming Styles
+    public Dictionary<string, string> hashes { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+  }
 }

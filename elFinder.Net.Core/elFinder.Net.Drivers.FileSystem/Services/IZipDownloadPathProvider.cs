@@ -24,7 +24,7 @@ namespace elFinder.Net.Drivers.FileSystem.Services
         {
             cancellationToken.ThrowIfCancellationRequested();
             var tempFileName = $"{Prefix}_{Guid.NewGuid()}_{DateTimeOffset.UtcNow.Ticks}";
-            var tempFile = Path.Combine(filePath, tempFileName);
+            var tempFile = Path.Join(filePath, tempFileName);
             return Task.FromResult((tempFile, tempFileName));
         }
 
@@ -34,7 +34,7 @@ namespace elFinder.Net.Drivers.FileSystem.Services
 
             if (Path.IsPathRooted(archiveFileKey)) throw new PermissionDeniedException("Malformed key");
 
-            var fullPath = Path.GetFullPath(Path.Combine(filePath, archiveFileKey));
+            var fullPath = Path.GetFullPath(Path.Join(filePath, archiveFileKey));
             if (!fullPath.StartsWith(filePath.EndsWith($"{Path.DirectorySeparatorChar}")
                 ? filePath : filePath + Path.DirectorySeparatorChar))
                 throw new PermissionDeniedException("Malformed key");

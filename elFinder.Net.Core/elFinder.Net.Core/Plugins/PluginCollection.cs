@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Plugins
 {
-    public class PluginCollection
+    public sealed class PluginCollection
     {
         public PluginCollection()
         {

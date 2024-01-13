@@ -2,13 +2,15 @@
 
 namespace elFinder.Net.Core.Models.Response
 {
-    public class LsResponse
+  public class LsResponse
+  {
+    public LsResponse()
     {
-        public LsResponse()
-        {
-            list = new Dictionary<string, string>();
-        }
-
-        public Dictionary<string, string> list { get; }
+      list = [];
     }
+
+#pragma warning disable IDE1006 // Naming Styles
+    public Dictionary<string, string> list { get; }
+#pragma warning restore IDE1006 // Naming Styles
+  }
 }

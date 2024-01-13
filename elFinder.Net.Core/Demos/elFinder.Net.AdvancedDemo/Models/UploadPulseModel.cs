@@ -8,6 +8,6 @@ namespace elFinder.Net.AdvancedDemo.Models
     {
         public List<string> UploadedFiles { get; set; }
         public DateTimeOffset LastPulse { get; set; }
-        public Timer Timer { get; set; }
+        public System.Timers.Timer Timer { get; set; }
     }
 }

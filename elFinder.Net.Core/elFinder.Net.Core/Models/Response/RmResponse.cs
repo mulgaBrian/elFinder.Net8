@@ -2,13 +2,15 @@
 
 namespace elFinder.Net.Core.Models.Response
 {
-    public class RmResponse
+  public class RmResponse
+  {
+    public RmResponse()
     {
-        public RmResponse()
-        {
-            removed = new List<string>();
-        }
-
-        public List<string> removed { get; }
+      removed = [];
     }
+
+#pragma warning disable IDE1006 // Naming Styles
+    public List<string> removed { get; }
+#pragma warning restore IDE1006 // Naming Styles
+  }
 }

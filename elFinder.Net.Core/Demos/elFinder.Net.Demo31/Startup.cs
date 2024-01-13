@@ -14,78 +14,79 @@ using System.IO;
 
 namespace elFinder.Net.Demo31
 {
-    public class Startup
+  public class Startup
+  {
+    public Startup(IConfiguration configuration, IWebHostEnvironment env)
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
-        {
-            Configuration = configuration;
-            WebRootPath = env.WebRootPath;
-        }
-
-        public static string WebRootPath { get; private set; }
-        public static string TempPath { get; } = Path.GetTempPath();
-
-        public static string MapPath(string path, string basePath = null)
-        {
-            if (string.IsNullOrEmpty(basePath))
-            {
-                basePath = WebRootPath;
-            }
-
-            path = path.Replace("~/", "").TrimStart('/').Replace('/', '\\');
-            return PathHelper.GetFullPath(Path.Combine(basePath, path));
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            #region elFinder
-            services.AddElFinderAspNetCore()
-                .AddFileSystemDriver(tempFileCleanerConfig: (opt) =>
-                {
-                    opt.ScanFolders.Add(TempPath, TempFileCleanerOptions.DefaultUnmanagedLifeTime);
-                });
-            #endregion
-
-            services.AddResponseCompression(options =>
-            {
-                options.EnableForHttps = true;
-                options.Providers.Add<GzipCompressionProvider>();
-            });
-
-            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Fastest);
-
-            services.AddRazorPages();
-            services.AddControllersWithViews().AddNewtonsoftJson();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IEnumerable<IVolume> volumes)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseResponseCompression();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
-                endpoints.MapControllers();
-            });
-        }
+      Configuration = configuration;
+      WebRootPath = env.WebRootPath;
+      TempPath = env.WebRootPath + "\\temp";
     }
+
+    public static string WebRootPath { get; private set; }
+    public static string TempPath { get; private set; } = string.Empty;
+
+    public static string MapPath(string path, string basePath = null)
+    {
+      if (string.IsNullOrEmpty(basePath))
+      {
+        basePath = WebRootPath;
+      }
+
+      path = path.Replace("~/", "").TrimStart('/').Replace('/', '\\');
+      return PathHelper.GetFullPath(Path.Combine(basePath, path));
+    }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+      #region elFinder
+      services.AddElFinderAspNetCore()
+          .AddFileSystemDriver(tempFileCleanerConfig: (opt) =>
+          {
+            opt.ScanFolders.Add(TempPath, TempFileCleanerOptions.DefaultUnmanagedLifeTime);
+          });
+      #endregion
+
+      services.AddResponseCompression(options =>
+      {
+        options.EnableForHttps = true;
+        options.Providers.Add<GzipCompressionProvider>();
+      });
+
+      services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Fastest);
+
+      services.AddRazorPages();
+      services.AddControllersWithViews().AddNewtonsoftJson();
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IEnumerable<IVolume> volumes)
+    {
+      if (env.IsDevelopment())
+      {
+        app.UseDeveloperExceptionPage();
+      }
+      else
+      {
+        app.UseExceptionHandler("/Error");
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+      }
+
+      app.UseHttpsRedirection();
+      app.UseResponseCompression();
+      app.UseStaticFiles();
+
+      app.UseRouting();
+
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapRazorPages();
+        endpoints.MapControllers();
+      });
+    }
+  }
 }

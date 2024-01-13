@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class ArchiveTypeException : ConnectorException
+    public sealed class ArchiveTypeException : ConnectorException
     {
         public ArchiveTypeException()
         {

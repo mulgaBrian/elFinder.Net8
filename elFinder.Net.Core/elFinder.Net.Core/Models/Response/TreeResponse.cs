@@ -2,13 +2,15 @@
 
 namespace elFinder.Net.Core.Models.Response
 {
-    public class TreeResponse
+  public class TreeResponse
+  {
+    public TreeResponse()
     {
-        public TreeResponse()
-        {
-            tree = new List<object>();
-        }
-
-        public List<object> tree { get; set; }
+      tree = [];
     }
+
+#pragma warning disable IDE1006 // Naming Styles
+    public List<object> tree { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+  }
 }

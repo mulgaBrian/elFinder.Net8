@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Plugins
 {
-    public class PluginCapture
+    public sealed class PluginCapture
     {
         public Type Type { get; set; }
         public Type ImplType { get; set; }

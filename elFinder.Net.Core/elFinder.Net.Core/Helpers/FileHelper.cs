@@ -6,11 +6,11 @@ namespace elFinder.Net.Core.Helpers
     {
         public static (string UploadingFileName, int CurrentChunkNo, int TotalChunks) GetChunkInfo(string chunkName)
         {
-            var fileName = chunkName.Substring(0, chunkName.LastIndexOf('.'));
-            fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
+            var fileName = chunkName[..chunkName.LastIndexOf('.')];
+            fileName = fileName[..fileName.LastIndexOf('.')];
             var fileParts = chunkName.Split('.');
-            var chunkInfo = fileParts[fileParts.Length - 2].Split('_');
-            var totalChunks = int.Parse(chunkInfo[chunkInfo.Length - 1]) + 1;
+            var chunkInfo = fileParts[^2].Split('_');
+            var totalChunks = int.Parse(chunkInfo[^1]) + 1;
             var chunkNo = int.Parse(chunkInfo[0]);
             return (fileName, chunkNo, totalChunks);
         }

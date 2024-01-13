@@ -3,7 +3,7 @@ using System.Net;
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class PermissionDeniedException : ConnectorException
+    public sealed class PermissionDeniedException : ConnectorException
     {
         public PermissionDeniedException() : base("")
         {

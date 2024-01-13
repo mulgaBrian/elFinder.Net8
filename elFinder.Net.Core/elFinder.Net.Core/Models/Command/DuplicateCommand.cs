@@ -1,6 +1,6 @@
 ﻿namespace elFinder.Net.Core.Models.Command
 {
-    public class DuplicateCommand : TargetsCommand
+    public sealed class DuplicateCommand : TargetsCommand
     {
     }
 }

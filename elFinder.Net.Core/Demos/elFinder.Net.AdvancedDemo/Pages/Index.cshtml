@@ -1,151 +1,166 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "File manager";
+  ViewData["Title"] = "File manager";
 }
 
 <div class="container" style="margin-top: 100px">
-    <div id="elfinder"></div>
+  <ul class="dropdown">
+    <li class="dropdown">
+      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Theme <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/lib/jquery-ui/dist/themes/redmond/theme.css')">Redmond</a></li>
+        <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/windows-10/css/theme.css')">Windows 10</a></li>
+        <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/bootstrap-LibreICONS/css/theme-bootstrap-libreicons-svg.css')">Bootstrap</a></li>
+        <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/material/css/theme.css')">Material</a></li>
+        <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/material/css/theme-gray.css')">Material - Gray</a></li>
+        <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/material/css/theme-light.css')">Material - Light</a></li>
+        <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/lib/elfinder/css/theme.min.css')">Default</a></li>
+      </ul>
+    </li>
+  </ul>
+  <div id="elfinder"></div>
 </div>
 
 @section scripts {
-    <script type="text/javascript">
-        // Documentation for client options:
-        // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
-        $(document).ready(function () {
-            const disableContextMenu = ['hide'];
-            const contextMenu = elFinder.prototype._options.contextmenu;
-            contextMenu.navbar = contextMenu.navbar.filter(o => !disableContextMenu.includes(o));
-            contextMenu.cwd = contextMenu.cwd.filter(o => !disableContextMenu.includes(o));
-            contextMenu.files = contextMenu.files.filter(o => !disableContextMenu.includes(o));
+  <script type="text/javascript">
+    // Documentation for client options:
+    // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
+    $(document).ready(function () {
+      const disableContextMenu = ['hide'];
+      const contextMenu = elFinder.prototype._options.contextmenu;
+      contextMenu.navbar = contextMenu.navbar.filter(o => !disableContextMenu.includes(o));
+      contextMenu.cwd = contextMenu.cwd.filter(o => !disableContextMenu.includes(o));
+      contextMenu.files = contextMenu.files.filter(o => !disableContextMenu.includes(o));
 
-            //const appCmds = ['open', ...];
-            const appCmds = elFinder.prototype._options.commands;
-            elFinder.prototype.i18.en.messages.TextArea = "Edit";
-            elFinder.prototype.i18.en.messages.btnSearchFolder = "Folder only";
-            elFinder.prototype.i18.en.messages.searchFolder = "Search for folder only";
+      //const appCmds = ['open', ...];
+      const appCmds = elFinder.prototype._options.commands;
+      elFinder.prototype.i18.en.messages.TextArea = "Edit";
+      elFinder.prototype.i18.en.messages.btnSearchFolder = "Folder only";
+      elFinder.prototype.i18.en.messages.searchFolder = "Search for folder only";
 
-            // If you integrate with Quota management plugin
-            elFinder.prototype.i18.en.messages.errQuota = "Exceeding quota limits.<br/>Maximum: $1<br/>Usage: $2<br/>"
-                + "Please refresh to see the latest status";
+      // If you integrate with Quota management plugin
+      elFinder.prototype.i18.en.messages.errQuota = "Exceeding quota limits.<br/>Maximum: $1<br/>Usage: $2<br/>"
+        + "Please refresh to see the latest status";
 
-            var options = {
-                url: '/api/files/connector', // Default (Local File System)
-                rememberLastDir: false, // Prevent elFinder saving in the Browser LocalStorage the last visited directory
-                commands: appCmds,
-                //lang: 'pt_BR', // elFinder supports UI and messages localization. Check the folder Content\elfinder\js\i18n for all available languages. Be sure to include the corresponding .js file(s) in the JavaScript bundle.
-                uiOptions: { // UI buttons available to the user
-                    toolbar: [
-                        ['back', 'forward'],
-                        ['reload'],
-                        ['home', 'up'],
-                        ['mkdir', 'mkfile', 'upload'],
-                        ['open', 'download'],
-                        ['undo', 'redo'],
-                        ['info'],
-                        ['quicklook'],
-                        ['copy', 'cut', 'paste'],
-                        ['rm'],
-                        ['duplicate', 'rename', 'edit'],
-                        ['selectall', 'selectnone', 'selectinvert'],
-                        ['view', 'sort'],
-                        ['search']
-                    ]
-                },
-                contextmenu: contextMenu,
-                lang: 'vi',
-                requestType: 'post',
-                uploadMaxChunkSize: 1024 * 1024 * 10,
-                commandsOptions: {
-                    search: {
-                        // Additional search types
-                        searchTypes: {
-                            // "SearchMime" is implemented in default
-                            SearchMime: {           // The key is search type that send to the connector
-                                name: 'btnMime',    // Button text to be processed in i18n()
-                                title: 'searchMime' // Button title to be processed in i18n()
-                            },
-                            // This is custom search method for a function `searchMatchContents()` of your customized volume driver
-                            FolderOnly: {
-                                name: 'btnSearchFolder',
-                                title: 'searchFolder.'
-                            }
-                        }
-                    }
-                }
-                //onlyMimes: ["image", "text/plain"] // Get files of requested mime types only
-            };
-
-            const elf = $('#elfinder').elfinder(options).elfinder('instance');
-            let fmInstance;
-            let uploading = false;
-
-            //$.ajax({
-            //    url: '/lib/elfinder/js/i18n/elfinder.vi.js',
-            //    cache: true,
-            //    dataType: 'script'
-            //}).done(function () {
-            //    $('#elfinder').elfinder(options).elfinder('instance');
-            //});
-
-            const elfinderSetVolumeSize = function () {
-                const quota = elf.getUI().data('_quota') / 1024 / 1024;
-                const usage = elf.getUI().data('_usage') / 1024 / 1024;
-                let formatter = Intl.NumberFormat('en-US', {
-                    style: 'decimal',
-                    useGrouping: true,
-                    maximumFractionDigits: 2
-                });
-                var info = $('<span class="elfinder-stat-quota"/>').html(', Quota: ' + formatter.format(quota)
-                    + 'MB, Usage: ' + formatter.format(usage) + 'MB');
-                elf.getUI('stat').append(info);
-            };
-
-            elf.bind('open', function (e, fm) {
-                fmInstance = fm;
-                fm.getUI().data('_quota', e.data.quota);
-                fm.getUI().data('_usage', e.data.usage);
-            }).bind('opendone', elfinderSetVolumeSize);
-
-            if (false) { // Remove this if you want to use client notification for upload status
-                const sendUploadPulse = () => {
-                    $.ajax({
-                        method: 'POST',
-                        url: '/api/files/upload-pulse',
-                        success: () => console.log('Pulse success!'),
-                        error: () => console.log('Pulse failed!')
-                    });
-                };
-
-                elf.bind('upload', (e, fm) => {
-                    if (uploading) return;
-                    uploading = true;
-                    sendUploadPulse();
-                    const ntfNode = fm.getUI('notify');
-                    const pulseIntervalId = setInterval(() => {
-                        const hasDialog = ntfNode.children('.elfinder-notify-upload').length ? true : false;
-                        if (hasDialog) {
-                            sendUploadPulse();
-                        } else {
-                            uploading = false;
-                            clearInterval(pulseIntervalId);
-                        }
-                    }, 700);
-                });
+      var options = {
+        url: '/api/files/connector', // Default (Local File System)
+        baseUrl: '/lib/elfinder/',
+        rememberLastDir: false, // Prevent elFinder saving in the Browser LocalStorage the last visited directory
+        commands: appCmds,
+        //lang: 'pt_BR', // elFinder supports UI and messages localization. Check the folder Content\elfinder\js\i18n for all available languages. Be sure to include the corresponding .js file(s) in the JavaScript bundle.
+        uiOptions: { // UI buttons available to the user
+          toolbar: [
+            ['back', 'forward'],
+            ['reload'],
+            ['home', 'up'],
+            ['mkdir', 'mkfile', 'upload'],
+            ['open', 'download'],
+            ['undo', 'redo'],
+            ['info'],
+            ['quicklook'],
+            ['copy', 'cut', 'paste'],
+            ['rm'],
+            ['duplicate', 'rename', 'resize'],
+            ['selectall', 'selectnone', 'selectinvert'],
+            ['view', 'sort'],
+            ['search']
+          ]
+        },
+        contextmenu: contextMenu,
+        lang: 'en',
+        requestType: 'post',
+        uploadMaxChunkSize: 1024 * 1024 * 10,
+        commandsOptions: {
+          search: {
+            // Additional search types
+            searchTypes: {
+              // "SearchMime" is implemented in default
+              SearchMime: {           // The key is search type that send to the connector
+                name: 'btnMime',    // Button text to be processed in i18n()
+                title: 'searchMime' // Button title to be processed in i18n()
+              },
+              // This is custom search method for a function `searchMatchContents()` of your customized volume driver
+              FolderOnly: {
+                name: 'btnSearchFolder',
+                title: 'searchFolder.'
+              }
             }
+          }
+        },
+        onlyMimes: ["image", "text/plain","video","application/pdf"] // Get files of requested mime types only
+      };
 
-            // Example for avoiding draggable for locked objects
-            $('#elfinder').on('mouseover', (e) => {
-                $('.elfinder-cwd-file').off('mouseenter.custom').on('mouseenter.custom', (e) => {
-                    const id = e.currentTarget.id;
-                    const file = fmInstance.file(id);
-                    if (file && file.locked === 1) {
-                        fmInstance.draggable.appendTo = '';
-                    } else {
-                        fmInstance.draggable.appendTo = $('#elfinder');
-                    }
-                });
-            });
+      const elf = $('#elfinder').elfinder(options).elfinder('instance');
+      let fmInstance;
+      let uploading = false;
+
+      //$.ajax({
+      //    url: '/lib/elfinder/js/i18n/elfinder.vi.js',
+      //    cache: true,
+      //    dataType: 'script'
+      //}).done(function () {
+      //    $('#elfinder').elfinder(options).elfinder('instance');
+      //});
+
+      const elfinderSetVolumeSize = function () {
+        const quota = elf.getUI().data('_quota') / 1024 / 1024;
+        const usage = elf.getUI().data('_usage') / 1024 / 1024;
+        let formatter = Intl.NumberFormat('en-US', {
+          style: 'decimal',
+          useGrouping: true,
+          maximumFractionDigits: 2
         });
-    </script>
+        var info = $('<span class="elfinder-stat-quota"/>').html(', Quota: ' + formatter.format(quota)
+          + 'MB, Usage: ' + formatter.format(usage) + 'MB');
+        elf.getUI('stat').append(info);
+      };
+
+      elf.bind('open', function (e, fm) {
+        fmInstance = fm;
+        fm.getUI().data('_quota', e.data.quota);
+        fm.getUI().data('_usage', e.data.usage);
+      }).bind('opendone', elfinderSetVolumeSize);
+
+      if (false) { // Remove this if you want to use client notification for upload status
+        const sendUploadPulse = () => {
+          $.ajax({
+            method: 'POST',
+            url: '/api/files/upload-pulse',
+            success: () => console.log('Pulse success!'),
+            error: () => console.log('Pulse failed!')
+          });
+        };
+
+        elf.bind('upload', (e, fm) => {
+          if (uploading) return;
+          uploading = true;
+          sendUploadPulse();
+          const ntfNode = fm.getUI('notify');
+          const pulseIntervalId = setInterval(() => {
+            const hasDialog = ntfNode.children('.elfinder-notify-upload').length ? true : false;
+            if (hasDialog) {
+              sendUploadPulse();
+            } else {
+              uploading = false;
+              clearInterval(pulseIntervalId);
+            }
+          }, 700);
+        });
+      }
+
+      // Example for avoiding draggable for locked objects
+      $('#elfinder').on('mouseover', (e) => {
+        $('.elfinder-cwd-file').off('mouseenter.custom').on('mouseenter.custom', (e) => {
+          const id = e.currentTarget.id;
+          const file = fmInstance.file(id);
+          if (file && file.locked === 1) {
+            fmInstance.draggable.appendTo = '';
+          } else {
+            fmInstance.draggable.appendTo = $('#elfinder');
+          }
+        });
+      });
+    });
+  </script>
 }

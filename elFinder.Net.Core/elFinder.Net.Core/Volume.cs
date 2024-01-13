@@ -64,19 +64,16 @@ namespace elFinder.Net.Core
             string tempDirectory,
             string url,
             string thumbUrl,
-            string tempArchiveDirectory = null,
-            string chunkDirectory = null,
-            string thumbnailDirectory = null,
+            string tempArchiveDirectory = null!,
+            string chunkDirectory = null!,
+            string thumbnailDirectory = null!,
             char directorySeparatorChar = default)
         {
-            if (rootDirectory == null)
-                throw new ArgumentNullException(nameof(rootDirectory));
-            if (tempDirectory == null)
-                throw new ArgumentNullException(nameof(tempDirectory));
-            if (url == null)
-                throw new ArgumentNullException(nameof(url));
+      ArgumentNullException.ThrowIfNull(rootDirectory);
+      ArgumentNullException.ThrowIfNull(tempDirectory);
+      ArgumentNullException.ThrowIfNull(url);
 
-            Driver = driver;
+      Driver = driver;
             RootDirectory = rootDirectory;
             TempDirectory = tempDirectory;
             TempArchiveDirectory = tempArchiveDirectory ?? tempDirectory;
@@ -138,8 +135,8 @@ namespace elFinder.Net.Core
         {
             get => _defaultAttribute; set
             {
-                if (value == null) throw new ArgumentNullException(nameof(DefaultObjectAttribute));
-                _defaultAttribute = value;
+        ArgumentNullException.ThrowIfNull(value);
+        _defaultAttribute = value;
             }
         }
 

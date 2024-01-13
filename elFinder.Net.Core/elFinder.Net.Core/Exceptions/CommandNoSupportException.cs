@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class CommandNoSupportException : ConnectorException
+    public sealed class CommandNoSupportException : ConnectorException
     {
         public CommandNoSupportException()
         {

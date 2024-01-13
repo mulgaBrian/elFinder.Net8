@@ -1,6 +1,6 @@
 ﻿namespace elFinder.Net.Core.Models.Command
 {
-    public class ParentsCommand : TargetCommand
+    public sealed class ParentsCommand : TargetCommand
     {
     }
 }

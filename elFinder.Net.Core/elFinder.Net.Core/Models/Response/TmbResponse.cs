@@ -2,13 +2,15 @@
 
 namespace elFinder.Net.Core.Models.Response
 {
-    public class TmbResponse
+  public class TmbResponse
+  {
+    public TmbResponse()
     {
-        public TmbResponse()
-        {
-            images = new Dictionary<string, string>();
-        }
-
-        public Dictionary<string, string> images { get; }
+      images = [];
     }
+
+#pragma warning disable IDE1006 // Naming Styles
+    public Dictionary<string, string> images { get; }
+#pragma warning restore IDE1006 // Naming Styles
+  }
 }

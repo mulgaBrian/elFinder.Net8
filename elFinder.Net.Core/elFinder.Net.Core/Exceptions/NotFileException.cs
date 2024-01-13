@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class NotFileException : ConnectorException
+    public sealed class NotFileException : ConnectorException
     {
         public NotFileException()
         {

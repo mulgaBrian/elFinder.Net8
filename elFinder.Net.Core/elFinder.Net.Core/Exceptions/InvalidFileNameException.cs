@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class InvalidFileNameException : ConnectorException
+    public sealed class InvalidFileNameException : ConnectorException
     {
         public InvalidFileNameException()
         {

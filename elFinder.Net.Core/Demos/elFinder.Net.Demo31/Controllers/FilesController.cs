@@ -8,67 +8,74 @@ using System.Threading.Tasks;
 
 namespace elFinder.Net.Demo31.Controllers
 {
-    [Route("api/files")]
-    public class FilesController : Controller
+  [Route("api/files")]
+  public class FilesController : Controller
+  {
+    private readonly IConnector _connector;
+    private readonly IDriver _driver;
+
+    public FilesController(IConnector connector, IDriver driver)
     {
-        private readonly IConnector _connector;
-        private readonly IDriver _driver;
-
-        public FilesController(IConnector connector,
-            IDriver driver)
-        {
-            _connector = connector;
-            _driver = driver;
-        }
-
-        [Route("connector")]
-        public async Task<IActionResult> Connector()
-        {
-            await SetupConnectorAsync();
-            var cmd = ConnectorHelper.ParseCommand(Request);
-            var ccTokenSource = ConnectorHelper.RegisterCcTokenSource(HttpContext);
-            var conResult = await _connector.ProcessAsync(cmd, ccTokenSource);
-            var actionResult = conResult.ToActionResult(HttpContext);
-            return actionResult;
-        }
-
-        [Route("thumb/{target}")]
-        public async Task<IActionResult> Thumb(string target)
-        {
-            await SetupConnectorAsync();
-            var thumb = await _connector.GetThumbAsync(target, HttpContext.RequestAborted);
-            var actionResult = ConnectorHelper.GetThumbResult(thumb);
-            return actionResult;
-        }
-
-        private async Task SetupConnectorAsync()
-        {
-            // Volumes registration
-            for (var i = 0; i < 5; i++)
-            {
-                var volume = new Volume(_driver,
-                    Startup.MapPath($"~/upload/volume-{i}"),
-                    Startup.TempPath,
-                    $"/upload/volume-{i}",
-                    $"/api/files/thumb/",
-                    thumbnailDirectory: PathHelper.GetFullPath("./thumb"))
-                {
-                    StartDirectory = Startup.MapPath($"~/upload/volume-{i}/start"),
-                    Name = $"Volume {i}",
-                    MaxUploadConnections = 3
-                };
-
-                _connector.AddVolume(volume);
-                await volume.Driver.SetupVolumeAsync(volume);
-            }
-
-            // Events
-            _driver.OnBeforeMove.Add((fileSystem, newDest, isOverwrite) =>
-            {
-                Console.WriteLine("Move: " + fileSystem.FullName);
-                Console.WriteLine("To: " + newDest);
-                return Task.CompletedTask;
-            });
-        }
+      _connector = connector;
+      _driver = driver;
     }
+
+    [Route("connector")]
+    public async Task<IActionResult> Connector()
+    {
+      await SetupConnectorAsync();
+      Core.Models.Command.ConnectorCommand cmd = ConnectorHelper.ParseCommand(Request);
+      CancellationTokenSource ccTokenSource = ConnectorHelper.RegisterCcTokenSource(HttpContext);
+      Core.Models.Result.ConnectorResult conResult = await _connector.ProcessAsync(cmd, ccTokenSource);
+      IActionResult actionResult = conResult.ToActionResult(HttpContext);
+      return actionResult;
+    }
+
+    [Route("thumb/{target}")]
+    public async Task<IActionResult> Thumb(string target)
+    {
+      try
+      {
+        await SetupConnectorAsync();
+        Core.Services.Drawing.ImageWithMimeType thumb = await _connector.GetThumbAsync(target, HttpContext.RequestAborted);
+        IActionResult actionResult = ConnectorHelper.GetThumbResult(thumb);
+        return actionResult;
+      }
+      catch
+      {
+        //var msg = ex.Message;
+        throw;
+      }
+    }
+
+    private async Task SetupConnectorAsync()
+    {
+      // Volumes registration
+      //for (var i = 0; i < 5; i++)
+      //{
+      var volume = new Volume(_driver,
+          Startup.MapPath("images"),
+          Startup.TempPath,
+          "images",
+          "/api/files/thumb/",
+          thumbnailDirectory: PathHelper.GetFullPath("./thumb"))
+      {
+        StartDirectory = Startup.MapPath("images/articleThumbs"),
+        Name = "Images",
+        MaxUploadConnections = 3
+      };
+
+      _connector.AddVolume(volume);
+      await volume.Driver.SetupVolumeAsync(volume);
+      //}
+
+      // Events
+      _driver.OnBeforeMove.Add((fileSystem, newDest, isOverwrite) =>
+      {
+        Console.WriteLine("Move: " + fileSystem.FullName);
+        Console.WriteLine("To: " + newDest);
+        return Task.CompletedTask;
+      });
+    }
+  }
 }

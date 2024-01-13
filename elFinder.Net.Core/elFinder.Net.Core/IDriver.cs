@@ -3,15 +3,11 @@ using elFinder.Net.Core.Models.Command;
 using elFinder.Net.Core.Models.FileInfo;
 using elFinder.Net.Core.Models.Response;
 using elFinder.Net.Core.Services.Drawing;
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace elFinder.Net.Core
 {
-    #region Delegates
-    public delegate Task BeforeRemoveThumbAsync(PathInfo pathInfo);
+  #region Delegates
+  public delegate Task BeforeRemoveThumbAsync(PathInfo pathInfo);
     public delegate Task AfterRemoveThumbAsync(PathInfo pathInfo);
     public delegate Task RemoveThumbErrorAsync(Exception exception);
     public delegate Task BeforeMakeDirAsync(IDirectory directory);

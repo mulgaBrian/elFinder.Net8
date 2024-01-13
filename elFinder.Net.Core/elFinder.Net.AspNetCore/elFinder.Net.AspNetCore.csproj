@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>Yevhen Noskov, Leniel Macaferi, Matt Gordon, Flavio Smirne, Trung Tran</Authors>
     <Company>N/A</Company>
     <Copyright></Copyright>
@@ -12,26 +12,23 @@
     <RepositoryType>OSS</RepositoryType>
     <PackageTags>elFinder, connector, file-manager, driver</PackageTags>
     <IsPackable>true</IsPackable>
-    <Description>This package enables ASP.NET Core 2.2 projects to easily integrate the elFinder.Net.Core connector. See the example project on Github for usage detail.</Description>
+    <Description>This package enables ASP.NET .Net 8 projects to easily integrate the elFinder.Net.Core connector. See the example project on Github for usage detail.</Description>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>1.5.0</Version>
+    <Version>8.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>annotations</Nullable>
+    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.16" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.1.18" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\elFinder.Net.Core\elFinder.Net.Core.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\Assets\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\elFinder.Net.Core\elFinder.Net.Core.csproj" />
   </ItemGroup>
 
 </Project>

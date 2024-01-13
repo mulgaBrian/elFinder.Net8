@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Exceptions
 {
-    public class InvalidDirNameException : ConnectorException
+    public sealed class InvalidDirNameException : ConnectorException
     {
         public InvalidDirNameException()
         {

@@ -1,33 +1,48 @@
 {
   "version": "1.0",
-  "defaultProvider": "cdnjs",
+  "defaultProvider": "unpkg",
   "libraries": [
     {
-      "library": "twitter-bootstrap@3.3.7",
-      "destination": "wwwroot/lib/bootstrap/dist"
+      "library": "bootstrap@5.3.2",
+      "destination": "wwwroot/lib/bootstrap"
     },
     {
-      "library": "jquery@2.2.0",
-      "destination": "wwwroot/lib/jquery/dist"
+      "library": "@popperjs/core@2.11.7",
+      "destination": "wwwroot/lib/popper.js",
+      "files": [
+        "dist/umd/popper.js",
+        "dist/umd/popper.min.js",
+        "dist/umd/popper.js.map",
+        "dist/umd/popper.min.js.map",
+        "dist/umd/popper-lite.js",
+        "dist/umd/popper-lite.min.js",
+        "dist/umd/popper-lite.min.js.map",
+        "dist/umd/popper-lite.js.map"
+      ]
     },
     {
-      "library": "jquery-validate@1.14.0",
-      "destination": "wwwroot/lib/jquery-validate"
+      "library": "jquery@3.7.1",
+      "destination": "wwwroot/lib/jquery"
     },
     {
-      "library": "jquery-validation-unobtrusive@3.2.6",
+      "library": "jquery-validation@1.20.0",
+      "destination": "wwwroot/lib/jquery-validation"
+    },
+    {
+      "library": "jquery-validation-unobtrusive@4.0.0",
       "destination": "wwwroot/lib/jquery-validation-unobtrusive"
     },
     {
-      "library": "tinymce@4.7.7",
-      "destination": "wwwroot/lib/tinymce-dist"
+      "library": "tinymce@5.10.9",
+      "destination": "wwwroot/lib/tinymce"
     },
     {
-      "library": "jqueryui@1.12.1",
+      "library": "jquery-ui@1.13.2",
       "destination": "wwwroot/lib/jquery-ui"
     },
     {
-      "library": "elfinder@2.1.61",
+      "provider": "cdnjs",
+      "library": "elfinder@2.1.62",
       "destination": "wwwroot/lib/elfinder"
     }
   ]

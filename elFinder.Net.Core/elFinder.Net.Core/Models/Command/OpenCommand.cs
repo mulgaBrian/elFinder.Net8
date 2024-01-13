@@ -2,7 +2,7 @@
 
 namespace elFinder.Net.Core.Models.Command
 {
-    public class OpenCommand : TargetCommand
+    public sealed class OpenCommand : TargetCommand
     {
         public byte Init { get; set; }
         public byte Tree { get; set; }
