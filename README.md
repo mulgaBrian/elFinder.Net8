@@ -3,7 +3,7 @@
 
 ## Getting Started
 1. Install the NuGet package: https://www.nuget.org/packages/elFinder.Net8/
-2. Look at the [basic demo project](https://github.com/mulgaBrian/elFinder.Net8/tree/main/elFinder.Net.Core/Demos/elFinder.Net.Demo31) for an example of how to integrate it into your web project. (the example uses ASP.NET Core 3.1 and some additional packages listed below).
+2. Look at the [basic demo project](https://github.com/mulgaBrian/elFinder.Net8/tree/main/elFinder.Net.Core/Demos/elFinder.Net.Demo31) for an example of how to integrate it into your web project. (the example uses ASP.NET .Net 8 and some additional packages listed below).
 
 ## Advanced
 The [advanced demo project]([(https://github.com/mulgaBrian/elFinder.Net8)](https://github.com/mulgaBrian/elFinder.Net8)/tree/main/elFinder.Net.Core/Demos/elFinder.Net.AdvancedDemo) has some additional use cases enabled, including:
