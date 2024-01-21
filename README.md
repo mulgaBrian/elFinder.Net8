@@ -1,5 +1,5 @@
 # elFinder.Net8
-<img src="https://raw.githubusercontent.com/trannamtrung1st/elFinder.Net.Core/main/Assets/logo.png" alt="Logo" width="100px" />
+<img src="https://github.com/mulgaBrian/elFinder.Net8/main/Assets/logo.png" alt="Logo" width="100px" />
 
 ## Getting Started
 1. Install the NuGet package: https://www.nuget.org/packages/elFinder.Net8/
