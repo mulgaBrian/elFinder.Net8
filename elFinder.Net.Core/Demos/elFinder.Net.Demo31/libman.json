@@ -3,11 +3,11 @@
   "defaultProvider": "unpkg",
   "libraries": [
     {
-      "library": "bootstrap@5.3.2",
+      "library": "bootstrap@5.3.3",
       "destination": "wwwroot/lib/bootstrap"
     },
     {
-      "library": "@popperjs/core@2.11.7",
+      "library": "@popperjs/core@2.11.8",
       "destination": "wwwroot/lib/popper.js",
       "files": [
         "dist/umd/popper.js",
