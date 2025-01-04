@@ -13,7 +13,7 @@
     <IsPackable>true</IsPackable>
     <Description>elFinder.Net8 Local File System driver.</Description>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>8.0.8</Version>
+    <Version>8.0.9</Version>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>annotations</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -22,7 +22,7 @@
     <Title>elFinder.Net8.Drivers.FileSystem</Title>
     <Product>elFinder.Net8.Drivers.FileSystem</Product>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageOutputPath>$(OutputPath)</PackageOutputPath>
+    <PackageOutputPath>$(OutputPath)..\..\Nuget</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
