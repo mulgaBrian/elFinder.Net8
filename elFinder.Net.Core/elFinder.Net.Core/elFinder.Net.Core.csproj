@@ -17,7 +17,7 @@
       See the example project on Github for usage detail.
     </Description>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>8.0.10</Version>
+    <Version>8.0.12</Version>
     <OutputType>Library</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>annotations</Nullable>
@@ -32,11 +32,11 @@
   <ItemGroup>
     <PackageReference Include="ImageSharp.AVCodecFormats" Version="4.6.0" />
     <PackageReference Include="ImageSharp.AVCodecFormats.Native" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="8.0.0" />
     <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
   </ItemGroup>
 
   <ItemGroup>
