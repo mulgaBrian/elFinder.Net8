@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="~/lib/elfinder/css/elfinder.full.css" />
   <link rel="stylesheet" href="~/lib/elfinder/css/theme.css" /> @* <-- NOTE: This file is new and some of the themes may not look quite right if this is used. *@
   <link rel="stylesheet" href="~/css/elfinder/themes/material/css/theme-gray.css" id="elfinder-theme" />
-  <link rel="stylesheet" href="~/lib/jquery-ui/themes/redmond/jquery-ui.min.css" />
+  <link rel="stylesheet" href="~/lib/jquery-ui/dist/themes/redmond/jquery-ui.min.css" />
 
   <style>
     .elfinder-cwd table td {
@@ -57,7 +57,8 @@
   </div>
 
   <environment include="Development">
-    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/jquery-migrate-4.0.2.js"></script>
     <script src="~/lib/popper.js/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -71,7 +72,7 @@
   </environment>
 
   <script src="~/lib/jquery-ui/dist/jquery-ui.min.js"></script>
-  <script src="~/lib/elfinder/js/elfinder.full.min.js"></script>
+  <script src="~/lib/elfinder/js/elfinder.full.js"></script>
   <script type="text/javascript">
     function switchTheme(href) {
       $('link#elfinder-theme').attr('href', href);

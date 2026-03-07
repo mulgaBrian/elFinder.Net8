@@ -1,32 +1,29 @@
 {
   "version": "1.0",
-  "defaultProvider": "unpkg",
+  "defaultProvider": "jsdelivr",
   "libraries": [
     {
-      "library": "bootstrap@5.3.3",
+      "library": "bootstrap@5.3.8",
       "destination": "wwwroot/lib/bootstrap"
     },
     {
-      "library": "@popperjs/core@2.11.8",
-      "destination": "wwwroot/lib/popper.js",
+      "library": "jquery@4.0.0",
+      "destination": "wwwroot/lib/jquery/",
       "files": [
-        "dist/umd/popper.js",
-        "dist/umd/popper.min.js",
-        "dist/umd/popper.js.map",
-        "dist/umd/popper.min.js.map",
-        "dist/umd/popper-lite.js",
-        "dist/umd/popper-lite.min.js",
-        "dist/umd/popper-lite.min.js.map",
-        "dist/umd/popper-lite.js.map"
+        "dist/jquery.js",
+        "dist/jquery.min.js",
+        "dist/jquery.min.map",
+        "README.md"
       ]
     },
     {
-      "library": "jquery@3.7.1",
-      "destination": "wwwroot/lib/jquery"
-    },
-    {
-      "library": "jquery-validation@1.20.0",
-      "destination": "wwwroot/lib/jquery-validation"
+      "library": "jquery-validation@1.22.1",
+      "destination": "wwwroot/lib/jquery-validation/",
+      "files": [
+        "dist/jquery.validate.js",
+        "dist/jquery.validate.min.js",
+        "README.md"
+      ]
     },
     {
       "library": "jquery-validation-unobtrusive@4.0.0",
@@ -37,12 +34,12 @@
       "destination": "wwwroot/lib/tinymce"
     },
     {
-      "library": "jquery-ui@1.13.2",
+      "library": "jquery-ui@1.14.2",
       "destination": "wwwroot/lib/jquery-ui"
     },
     {
       "provider": "cdnjs",
-      "library": "elfinder@2.1.65",
+      "library": "elfinder@2.1.66",
       "destination": "wwwroot/lib/elfinder"
     }
   ]

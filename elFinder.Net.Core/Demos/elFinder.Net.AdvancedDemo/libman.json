@@ -3,7 +3,7 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "twitter-bootstrap@5.3.3",
+      "library": "twitter-bootstrap@5.3.8",
       "destination": "wwwroot/lib/bootstrap"
     },
     {
@@ -11,11 +11,12 @@
       "destination": "wwwroot/lib/popper.js"
     },
     {
-      "library": "jquery@3.7.1",
+      "provider": "unpkg",
+      "library": "jquery@4.0.0",
       "destination": "wwwroot/lib/jquery"
     },
     {
-      "library": "jquery-validate@1.20.0",
+      "library": "jquery-validate@1.21.0",
       "destination": "wwwroot/lib/jquery-validate"
     },
     {
@@ -27,12 +28,12 @@
       "destination": "wwwroot/lib/tinymce"
     },
     {
-      "library": "elfinder@2.1.65",
+      "library": "elfinder@2.1.66",
       "destination": "wwwroot/lib/elfinder"
     },
     {
       "provider": "unpkg",
-      "library": "jquery-ui@1.13.2",
+      "library": "jquery-ui@1.14.2",
       "destination": "wwwroot/lib/jquery-ui/",
       "files": [
         "AUTHORS.txt",
