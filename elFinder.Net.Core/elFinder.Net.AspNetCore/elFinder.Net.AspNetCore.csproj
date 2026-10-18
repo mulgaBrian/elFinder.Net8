@@ -14,7 +14,7 @@
     <IsPackable>true</IsPackable>
     <Description>This package enables ASP.NET .Net 8 projects to easily integrate the elFinder.Net.Core connector. See the example project on Github for usage detail.</Description>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>8.0.16</Version>
+    <Version>8.1.1</Version>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>annotations</Nullable>
     <IncludeSymbols>True</IncludeSymbols>
@@ -38,7 +38,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\elFinder.Net.Core\elFinder.Net.Core.csproj" />
+    <Reference Include="elFinder.Net.Core">
+      <HintPath>..\elFinder.Net.Core\bin\Debug\net8.0\elFinder.Net.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
-
+  <Target Name="CopyPackageAfterReleaseBuild" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <NewNuGetPackage Include="$(OutputPath)..\**\*.nupkg" />
+    </ItemGroup>
+    <Copy SourceFiles="@(NewNuGetPackage)" DestinationFolder="D:\Packages\" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

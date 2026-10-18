@@ -1,8 +1,7 @@
-﻿using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Processing;
-
+﻿using ImageMagick;
+using System.Drawing;
+using static elFinder.Net.Core.Models.FileInfo.BaseInfoResponse;
+using static System.Net.Mime.MediaTypeNames;
 namespace elFinder.Net.Core.Services.Drawing
 {
   /// <summary>
@@ -32,27 +31,26 @@ namespace elFinder.Net.Core.Services.Drawing
           || ext == ".webp";
     }
 
-    public virtual Task<ImageWithMimeType> CropAsync(Image input, int x, int y, int width, int height, int? quality = null)
+    public virtual Task<ImageWithMimeType> CropAsync(MagickImage input, uint x, uint y, uint width, uint height, int? quality = null)
     {
       if (quality == 0) { quality = null; }
 
-      input.Mutate(im => im.Crop(new Rectangle(x, y, width, height)));
+      input.Crop(width, height, Gravity.Center);
 
-      IImageFormat format = input.Metadata.DecodedImageFormat;
+      MagickFormat format = input.Format; // .Metadata.DecodedImageFormat;
 
       if (quality == null) return SaveImageAsync(input, format);
 
       return ChangeQualityAsync(input, format, quality);
-      //}
     }
 
-    public virtual Task<ImageWithMimeType> ScaleAsync(Image input, int width, int height, int? quality = null)
+    public virtual Task<ImageWithMimeType> ScaleAsync(MagickImage input, int width, int height, int? quality = null)
     {
       if (quality == 0) { quality = null; }
       try
       {
-        //Image image = Image.Load(input);
-        IImageFormat format = input.Metadata.DecodedImageFormat;// (IImageFormat)image.GetConfiguration().ImageFormats;
+        MagickImage image = new MagickImage(input);
+        MagickFormat format = image.Format; //.Metadata.DecodedImageFormat;// (IImageFormat)image.GetConfiguration().ImageFormats;
         return ScaleAsync(input, format, width, height, quality);
       }
       catch
@@ -61,9 +59,21 @@ namespace elFinder.Net.Core.Services.Drawing
       }
     }
 
-    public virtual Task<ImageWithMimeType> GenerateThumbnailAsync(Stream input, int size, bool keepAspectRatio)
+    public virtual Task<ImageWithMimeType> ScaleAsync(MagickImage image, MagickFormat format, int width, int height, int? quality = null)
     {
-      using var inputImage = Image.Load(input);
+      if (quality == 0) { quality = null; }
+
+      image.Resize((uint)width, (uint)height);
+
+      if (quality == null) return SaveImageAsync(image, format);
+
+      return ChangeQualityAsync(image, format, quality);
+    }
+
+    public virtual async Task<ImageWithMimeType> GenerateThumbnailAsync(Stream input, int size, bool keepAspectRatio)
+    {
+      using var inputImage = new MagickImage(input);
+      var profile = inputImage.GetExifProfile();
       int targetWidth;
       int targetHeight;
 
@@ -75,8 +85,9 @@ namespace elFinder.Net.Core.Services.Drawing
         double percentHeight = height != 0 ? size / height : 0;
         double percent = percentHeight < percentWidth ? percentHeight : percentWidth;
 
-        targetWidth = (int)(width * percent);
-        targetHeight = (int)(height * percent);
+        targetWidth = 48; //(int)(width * percent);
+        targetHeight = 48; //(int)(height * percent);
+        if (height > width) targetWidth = 0;
       }
       else
       {
@@ -84,32 +95,44 @@ namespace elFinder.Net.Core.Services.Drawing
         targetHeight = size;
       }
 
-      return ScaleAsync(inputImage, targetWidth, targetHeight);
+      return await ScaleAsync(inputImage,targetWidth,targetHeight);
     }
 
-    public virtual Size ImageSize(Stream input)
+    public virtual async Task<Size> ImageSize(Stream input)
     {
-      using var image = Image.Load(input);
-      return image.Size;
+      using var image = new MagickImage(input);
+      //return image.Size;
+      Size size = new((int)image.Width, (int)image.Height);
+      return size;
     }
 
-    public virtual Size ImageSize(string fullPath)
+    public virtual async Task<Size> ImageSize(string fullPath)
     {
-      using var image = Image.Load(fullPath);
-      return new Size(image.Width, image.Height);
+      using var image = new MagickImage(fullPath);
+      return new Size((int)image.Width, (int)image.Height);
     }
 
-    public virtual Task<ImageWithMimeType> RotateAsync(Image image, IImageFormat format, int angle, Color? background = null, int? quality = null)
+    public virtual Task<ImageWithMimeType> RotateAsync(MagickImage image, MagickFormat format, int angle, Color? background = null, int? quality = null)
     {
       if (quality == 0) { quality = null; }
 
-      image.Mutate(im => im
-          .Rotate(angle)
-          .BackgroundColor(background ?? BackgroundColor));
+      image.Rotate(angle);
+      //.BackgroundColor(background ?? BackgroundColor));
 
       if (quality == null) return SaveImageAsync(image, format);
 
       return ChangeQualityAsync(image, format, quality);
+    }
+
+    protected virtual async Task<ImageWithMimeType> SaveImageAsync(MagickImage image, MagickFormat format)
+    {
+      var memoryStream = new MemoryStream();
+      string mimeType;
+      await image.WriteAsync(memoryStream, format);
+      mimeType = $"image/{format.ToString().ToLower()}";
+      memoryStream.Position = 0;
+
+      return new ImageWithMimeType(mimeType, memoryStream);
     }
 
     public virtual Task<ImageWithMimeType> RotateAsync(Stream input, int angle, string backgroundHex = null, int? quality = null)
@@ -119,53 +142,31 @@ namespace elFinder.Net.Core.Services.Drawing
 
       if (!string.IsNullOrEmpty(backgroundHex))
       {
-        bgColor = Color.ParseHex($"{backgroundHex[1..]}FF");
+        bgColor = ColorTranslator.FromHtml($"{backgroundHex[1..]}FF");
       }
 
-      using var image = Image.Load(input);
+      using var image = new MagickImage(input);
 
-      IImageFormat format = image.Metadata.DecodedImageFormat;
+      MagickFormat format = image.Format; // .Metadata.DecodedImageFormat;
       return RotateAsync(image, format, angle, bgColor, quality);
     }
 
-    public virtual Task<ImageWithMimeType> ScaleAsync(Image image, IImageFormat format, int width, int height, int? quality = null)
-    {
-      if (quality == 0) { quality = null; }
-
-      image.Mutate(im => im
-          .Resize(width, height));
-
-      if (quality == null) return SaveImageAsync(image, format);
-
-      return ChangeQualityAsync(image, format, quality);
-    }
-
-    protected virtual async Task<ImageWithMimeType> SaveImageAsync(Image image, IImageFormat format)
-    {
-      var memoryStream = new MemoryStream();
-      string mimeType;
-      await image.SaveAsync(memoryStream, format);
-      mimeType = format.DefaultMimeType;
-      memoryStream.Position = 0;
-
-      return new ImageWithMimeType(mimeType, memoryStream);
-    }
-
-    protected virtual async Task<ImageWithMimeType> ChangeQualityAsync(Image image, IImageFormat format, int? quality = null)
+    protected virtual async Task<ImageWithMimeType> ChangeQualityAsync(MagickImage image, MagickFormat format, int? quality = null)
     {
       if (quality == 0) { quality = null; }
       var memoryStream = new MemoryStream();
-      IImageEncoder imageEncoder;
-      string mimeType = JpegFormat.Instance.DefaultMimeType;
-      imageEncoder = new JpegEncoder
-      {
-        Quality = quality,
-      };
+      //IImageEncoder imageEncoder;
+      //string mimeType = MagickFormat.Jpg.ToString();
+      //imageEncoder = new JpegEncoder
+      //{
+      //  Quality = quality,
+      //};
 
-      await image.SaveAsync(memoryStream, imageEncoder);
+      image.Format = MagickFormat.Jpg;
+      image.Write(memoryStream);
       memoryStream.Position = 0;
 
-      return new ImageWithMimeType(mimeType, memoryStream);
+      return new ImageWithMimeType("image/jpg", memoryStream);
     }
   }
 }

@@ -17,7 +17,7 @@
       See the example project on Github for usage detail.
     </Description>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>8.0.16</Version>
+    <Version>8.1.1</Version>
     <OutputType>Library</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>annotations</Nullable>
@@ -30,13 +30,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ImageSharp.AVCodecFormats" Version="5.1.2" />
-    <PackageReference Include="ImageSharp.AVCodecFormats.Native" Version="3.0.0" />
+    <Compile Remove="Helpers\FFmpegBinariesHelper.cs" />
+  </ItemGroup>
+
+	<ItemGroup>
+    <PackageReference Include="FFmpeg.GPL" Version="20261017.1.0" />
+    <PackageReference Include="FFMpegCore" Version="5.5.0" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="15.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.13" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="8.0.0" />
     <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,5 +54,10 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
+  <Target Name="CopyPackageAfterReleaseBuild" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <NewNuGetPackage Include="$(OutputPath)..\**\*.nupkg" />
+    </ItemGroup>
+    <Copy SourceFiles="@(NewNuGetPackage)" DestinationFolder="D:\Packages\" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

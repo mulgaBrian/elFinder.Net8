@@ -12,11 +12,11 @@ using elFinder.Net.Drivers.FileSystem.Extensions;
 using elFinder.Net.Drivers.FileSystem.Helpers;
 using elFinder.Net.Drivers.FileSystem.Services;
 using elFinder.Net.Drivers.FileSystem.Streams;
-using SixLabors.ImageSharp;
+using ImageMagick;
+using System.Drawing;
 using System.IO.Compression;
 using System.Net.Mime;
 using System.Text;
-using System;
 
 namespace elFinder.Net.Drivers.FileSystem
 {
@@ -1063,7 +1063,7 @@ namespace elFinder.Net.Drivers.FileSystem
       if (!file.ObjectAttribute.Read) throw new PermissionDeniedException();
 
       using Stream stream = await file.OpenReadAsync(cancellationToken: cancellationToken);
-      Size size = pictureEditor.ImageSize(stream);
+      Size size = await pictureEditor.ImageSize(stream);
       return new DimResponse(size);
     }
 
@@ -1599,7 +1599,7 @@ namespace elFinder.Net.Drivers.FileSystem
             Func<Task<ImageWithMimeType>> getImageFunc = async () =>
             {
               using Stream stream = await targetFile.OpenReadAsync(cancellationToken: cancellationToken);
-              var image = Image.Load(stream);
+              var image = new MagickImage(stream);
               return await pictureEditor
                               .ScaleAsync(image, cmd.Width, cmd.Height, cmd.Quality);
             };
@@ -1623,9 +1623,9 @@ namespace elFinder.Net.Drivers.FileSystem
             Func<Task<ImageWithMimeType>> getImageFunc = async () =>
             {
               using Stream stream = await targetFile.OpenReadAsync(cancellationToken: cancellationToken);
-              var image = Image.Load(stream);
-              return await pictureEditor.CropAsync(image, cmd.X, cmd.Y,
-                              cmd.Width, cmd.Height, cmd.Quality);
+              var image = new MagickImage(stream);
+              return await pictureEditor.CropAsync(image, (uint)cmd.X, (uint)cmd.Y,
+                              (uint)cmd.Width, (uint)cmd.Height, cmd.Quality);
             };
 
             Func<Task<Stream>> openStreamFunc = async () => (await getImageFunc()).ImageStream;
@@ -1837,6 +1837,7 @@ namespace elFinder.Net.Drivers.FileSystem
       IVolume volume = file.Volume;
       IFile thumbFile = volume.Driver.CreateFile(thumbPath, volume);
 
+      try { 
       if (!await thumbFile.ExistsAsync)
       {
         if (mediaType == MediaType.Image)
@@ -1856,6 +1857,11 @@ namespace elFinder.Net.Drivers.FileSystem
       }
 
       return (null, thumbFile, mediaType);
+      }
+      catch
+      {
+        throw;
+      }
     }
 
     public IFile CreateFile(string fullPath, IVolume volume)

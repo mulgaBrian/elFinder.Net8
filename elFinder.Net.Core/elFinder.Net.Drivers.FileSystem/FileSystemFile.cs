@@ -98,7 +98,7 @@ namespace elFinder.Net.Drivers.FileSystem
       if (verify && !ObjectAttribute.Read) throw new PermissionDeniedException();
 
       GCHelper.WaitForCollect();
-      return Task.FromResult<Stream>(fileInfo.OpenRead());
+      return Task.FromResult<Stream>(fileInfo.Open(FileMode.Open));
     }
 
     public virtual Task RefreshAsync(CancellationToken cancellationToken = default)
@@ -166,9 +166,11 @@ namespace elFinder.Net.Drivers.FileSystem
 
       using (var original = await file.OpenReadAsync(verify: false, cancellationToken: cancellationToken))
       {
+
         var thumb = await pictureEditor.GenerateThumbnailAsync(original, tmbSize, true);
 
         if (thumb == null) return null;
+        thumb.ImageStream.Position = 0;
 
         await OverwriteAsync(thumb.ImageStream, verify, cancellationToken: cancellationToken);
 

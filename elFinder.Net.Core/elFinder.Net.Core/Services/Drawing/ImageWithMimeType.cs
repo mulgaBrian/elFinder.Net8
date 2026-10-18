@@ -3,21 +3,15 @@ using System.IO;
 
 namespace elFinder.Net.Core.Services.Drawing
 {
-    public class ImageWithMimeType : IDisposable
+    public class ImageWithMimeType(string mimeType, Stream stream) : IDisposable
     {
-        public ImageWithMimeType(string mimeType, Stream stream)
-        {
-            MimeType = mimeType;
-            ImageStream = stream;
-        }
+    public Stream ImageStream { get; set; } = stream;
 
-        public Stream ImageStream { get; protected set; }
+    public string MimeType { get; set; } = mimeType;
 
-        public string MimeType { get; protected set; }
+    #region IDisposable Support
 
-        #region IDisposable Support
-
-        private bool _disposedValue = false; // To detect redundant calls
+    private bool _disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {

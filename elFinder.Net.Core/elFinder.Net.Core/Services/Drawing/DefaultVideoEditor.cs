@@ -1,9 +1,6 @@
-﻿using HeyRed.ImageSharp.AVCodecFormats;
-using HeyRed.ImageSharp.AVCodecFormats.Webm;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Formats.Png;
+﻿using FFMpegCore;
+using ImageMagick;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace elFinder.Net.Core.Services.Drawing
 {
@@ -43,39 +40,84 @@ namespace elFinder.Net.Core.Services.Drawing
       //return await Task.FromResult(default(ImageWithMimeType));
     }
 
-    protected static Task<ImageWithMimeType> CreateThumbnailUsingFfmpeg(string mediaFilePath, int size)
+    protected static async Task<ImageWithMimeType> CreateThumbnailUsingFfmpeg(string mediaFilePath, int size)
     {
-      // Create custom configuration with all available decoders
-      Configuration configuration = new Configuration().WithAVDecoders();
-      // NOTE: Don't forget to set max frames.
-      // Without this limit you can run into huge memory usage.
-      var decoderOptions = new AVDecoderOptions
-      {
-        PreserveAspectRatio = true,
-        GeneralOptions = new DecoderOptions
-        {
-          MaxFrames = 50,
-          Configuration = configuration,
-          TargetSize = new Size(size*2),
-        },
-      };
+      TimeSpan captureTime = TimeSpan.FromSeconds(5);
+      string outFileName = Path.ChangeExtension(mediaFilePath, ".jpg");
+      string mediaFileName = Path.GetFileName(outFileName);
+      string outFilePath = Path.Combine("wwwroot", ".thumb", mediaFileName);
+      string mimeType = await GetMimeType(mediaFileName);
+      await GenerateAsync(mediaFilePath, outFilePath, captureTime);
 
-      using FileStream inputStream = File.OpenRead(mediaFilePath);
-      using var image = Image.Load(decoderOptions.GeneralOptions, inputStream);
-
-      var format = new JpegEncoder(){ Quality = 40 };
+      MagickImage img = new(outFilePath);
       var memoryStream = new MemoryStream();
-      string mimeType;
-      image.Frames
-        .CloneFrame((int)decoderOptions.GeneralOptions.MaxFrames - 1)
-        .SaveAsync(memoryStream, format);
-      image.Dispose();
-      //image.SaveAsync(memoryStream, format);
-      mimeType = "image/jpeg";
+      await img.WriteAsync(memoryStream, MagickFormat.Jpg);
       memoryStream.Position = 0;
 
-      return Task.FromResult(new ImageWithMimeType(mimeType, memoryStream));
+      return await Task.FromResult(new ImageWithMimeType(mimeType, memoryStream));
+    }
+    public static async Task GenerateAsync(string inputFile, string outputFile, TimeSpan captureTime)
+    {
+      if (captureTime < TimeSpan.Zero)
+        throw new ArgumentException("The timestamp must not be negative.");
 
+      inputFile = Path.GetFullPath(inputFile);
+      outputFile = Path.GetFullPath(outputFile);
+      if (!File.Exists(inputFile))
+        throw new FileNotFoundException("The input video does not exist.", inputFile);
+      if (!Path.GetExtension(outputFile).Equals(".jpg", StringComparison.OrdinalIgnoreCase))
+        throw new ArgumentException("Use a .jpg output filename.");
+      //if (File.Exists(outputFile) || Directory.Exists(outputFile))
+      //  throw new IOException("The destination already exists. Choose a new filename.");
+
+      var directory = Path.GetDirectoryName(outputFile)!;
+      if (!Directory.Exists(directory))
+      {
+        //throw new DirectoryNotFoundException("The output directory does not exist.");
+        Directory.CreateDirectory(directory);
+      }
+      var temporaryFile = Path.Combine(directory, $".thumbnail-{Guid.NewGuid():N}.jpg");
+
+      try
+      {
+        await FFMpegArguments
+            .FromFileInput(inputFile, addArguments: options => options.Seek(captureTime))
+            .OutputToFile(temporaryFile, false, options => options
+                .WithVideoCodec("mjpeg")
+                .WithFrameOutputCount(1)
+                .WithVideoFilters(filters => filters.Scale(320, -2))
+                .ForceFormat("image2")
+                .WithCustomArgument("-map 0:v:0 -pix_fmt yuvj420p -update 1"))
+            .ProcessAsynchronously();
+
+        if (!File.Exists(temporaryFile) || new FileInfo(temporaryFile).Length == 0)
+          throw new InvalidOperationException("No frame was produced. Try an earlier timestamp.");
+
+        var image = await FFProbe.AnalyseAsync(temporaryFile);
+        if (!image.VideoStreams.Any(stream =>
+            stream.CodecName == "mjpeg" && stream.Width == 320 && stream.Height > 0))
+          throw new InvalidOperationException("The output is not the expected JPEG thumbnail.");
+
+        File.Move(temporaryFile, outputFile, overwrite: true);
+      }
+      finally
+      {
+        File.Delete(temporaryFile);
+      }
+    }
+
+
+    public async static Task<string> GetMimeType(string fileName)
+    {
+      var provider = new FileExtensionContentTypeProvider();
+      const string defaultContentType = "application/octet-stream";
+
+      if (!provider.TryGetContentType(fileName, out string contentType))
+      {
+        contentType = defaultContentType;
+      }
+
+      return contentType;
     }
   }
 }

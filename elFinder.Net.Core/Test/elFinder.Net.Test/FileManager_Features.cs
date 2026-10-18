@@ -67,15 +67,15 @@ namespace elFinder.Net.Test
     [SetUp]
     public void Setup() {
       if (_prerequisite && _stopped) {
-        Assert.Inconclusive("Prerequisite failed");
+        NUnit.Framework.Assert.Inconclusive("Prerequisite failed");
       }
 
-      var methodName = TestContext.CurrentContext.Test.MethodName;
+      var methodName = NUnit.Framework.TestContext.CurrentContext.Test.MethodName;
 
       if (_dependencies.ContainsKey(methodName))
         foreach (var dep in _dependencies[methodName]) {
           if (!_result[dep])
-            Assert.Inconclusive("Dependency failed");
+            NUnit.Framework.Assert.Inconclusive("Dependency failed");
         }
 
       _prerequisite = false;
@@ -115,10 +115,10 @@ namespace elFinder.Net.Test
 
     [TearDown]
     public void TearDown() {
-      var methodName = TestContext.CurrentContext.Test.MethodName;
+      var methodName = NUnit.Framework.TestContext.CurrentContext.Test.MethodName;
       _result[methodName] = false;
 
-      switch (TestContext.CurrentContext.Result.Outcome.Status) {
+      switch (NUnit.Framework.TestContext.CurrentContext.Result.Outcome.Status) {
         case TestStatus.Failed:
           if (_prerequisite) _stopped = true;
           break;

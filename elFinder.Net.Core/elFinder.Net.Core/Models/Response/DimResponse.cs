@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp;
+﻿using ImageMagick;
+using System.Drawing;
 
 namespace elFinder.Net.Core.Models.Response
 {
@@ -10,11 +11,9 @@ namespace elFinder.Net.Core.Models.Response
 
     public DimResponse(Size size)
     {
-      dim = $"{size.Width}x{size.Height}";
+      Dimesions = $"{size.Width}x{size.Height}";
     }
 
-#pragma warning disable IDE1006 // Naming Styles
-    public string dim { get; set; }
-#pragma warning restore IDE1006 // Naming Styles
+    public string Dimesions { get; set; } = default!;
   }
 }
