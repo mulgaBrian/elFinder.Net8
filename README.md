@@ -28,6 +28,7 @@ There are other drivers for different storage, e.g, [elFinder AzureStorage](http
 - Others: please download the repository, then run the demo projects. They should walk through all of the important classes.
 
 ## About this repository  
+**Note updated to use net10.0 at version 8.1.0**
 There are 3 main projects:
 - **elFinder.Net.Core**: the core backend connector for elFinder.
 - **elFinder.Net.AspNetCore**: enable ASP.NET Core 2.2 projects to easily integrate the connector package.
