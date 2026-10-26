@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="thumb\**" />
     <Compile Remove="wwwroot\images\**" />
     <Compile Remove="wwwroot\lib\**" />
+    <Content Remove="thumb\**" />
     <Content Remove="wwwroot\images\**" />
     <Content Remove="wwwroot\lib\**" />
+    <EmbeddedResource Remove="thumb\**" />
     <EmbeddedResource Remove="wwwroot\images\**" />
     <EmbeddedResource Remove="wwwroot\lib\**" />
+    <None Remove="thumb\**" />
     <None Remove="wwwroot\images\**" />
     <None Remove="wwwroot\lib\**" />
   </ItemGroup>
@@ -29,7 +33,6 @@
 
   <ItemGroup>
     <Folder Include="temp\" />
-    <Folder Include="thumb\" />
   </ItemGroup>
 
 </Project>

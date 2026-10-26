@@ -1,8 +1,9 @@
 ﻿using elFinder.Net.Core;
 using elFinder.Net.Core.Services.Drawing;
-using FFMpegCore;
 using ImageMagick;
 using Microsoft.AspNetCore.StaticFiles;
+using ThumbGen;
+using ThumbGen.Builder;
 
 namespace elFinder.Net.AdvancedDemo.Services
 {
@@ -83,29 +84,31 @@ namespace elFinder.Net.AdvancedDemo.Services
 
       var directory = Path.GetDirectoryName(outputFile)!;
       if (!Directory.Exists(directory))
-        throw new DirectoryNotFoundException("The output directory does not exist.");
+        Directory.CreateDirectory(directory);
+        //throw new DirectoryNotFoundException("The output directory does not exist.");
       var temporaryFile = Path.Combine(directory, $".thumbnail-{Guid.NewGuid():N}.jpg");
 
       try
       {
-        await FFMpegArguments
-            .FromFileInput(inputFile, addArguments: options => options.Seek(captureTime))
-            .OutputToFile(temporaryFile, false, options => options
-                .WithVideoCodec("mjpeg")
-                .WithFrameOutputCount(1)
-                .WithVideoFilters(filters => filters.Scale(320, -2))
-                .ForceFormat("image2")
-                .WithCustomArgument("-map 0:v:0 -pix_fmt yuvj420p -update 1"))
-            .ProcessAsynchronously();
+        var thumbnailGenerator = ThumbnailGeneratorBuilder
+            .Create()
+            .WithFFmpegVideoCapture()
+            .UseMagickRenderer()
+            .ConfigureRendering(renderingOpts => renderingOpts
+                .WithFrameSize(-1, 108)
+                .WithTiling(options =>
+                {
+                  options.Columns = 1;
+                  options.Rows = 1;
+                })
+                .PreserveFrameAspect(true))
+            .Build(inputFile);
 
-        if (!File.Exists(temporaryFile) || new FileInfo(temporaryFile).Length == 0)
-          throw new InvalidOperationException("No frame was produced. Try an earlier timestamp.");
+        var opts = new ThumbGenOptions()
+            .WithStartTime(TimeSpan.FromSeconds(5))
+            .WithOutputFilename(Path.GetFullPath(temporaryFile));
 
-        var image = await FFProbe.AnalyseAsync(temporaryFile);
-        if (!image.VideoStreams.Any(stream =>
-            stream.CodecName == "mjpeg" && stream.Width == 320 && stream.Height > 0))
-          throw new InvalidOperationException("The output is not the expected JPEG thumbnail.");
-
+        await thumbnailGenerator.ExecuteAsync(opts);
         File.Move(temporaryFile, outputFile, overwrite: true);
       }
       finally

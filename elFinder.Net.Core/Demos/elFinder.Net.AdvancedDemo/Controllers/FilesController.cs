@@ -19,8 +19,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using ThumbGen;
 
 namespace elFinder.Net.AdvancedDemo.Controllers
 {
@@ -61,6 +63,13 @@ namespace elFinder.Net.AdvancedDemo.Controllers
       _videoEditor = videoEditor;
       _storageManager = storageManager;
       _dataContext = dataContext;
+      bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+      bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+      bool isOsx = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+      string os = "./runtimes/win-x64/native/";
+      if (isLinux) { os = "/usr/lib/x86_64-linux-gnu"; }
+      if (isOsx) { os = "./runtimes/osx-x64/native/"; }
+      FFmpegBindings.Initialize(os);
     }
 
     [Route("connector")]

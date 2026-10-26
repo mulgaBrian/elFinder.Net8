@@ -3,6 +3,7 @@ using elFinder.Net.AspNetCore.Helper;
 using elFinder.Net.Core;
 using elFinder.Net.Drivers.FileSystem.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 using ThumbGen;
 
 namespace elFinder.Net.Demo31.Controllers
@@ -17,7 +18,13 @@ namespace elFinder.Net.Demo31.Controllers
     {
       _connector = connector;
       _driver = driver;
-      FFmpegBindings.Initialize("runtimes/win-x64/native/");
+      bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+      bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+      bool isOsx = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+      string os = "./runtimes/win-x64/native/";
+      if (isLinux) { os = "/usr/lib/x86_64-linux-gnu"; }
+      if (isOsx) { os = "./runtimes/osx-x64/native/"; }
+      FFmpegBindings.Initialize(os);
     }
 
     [Route("connector")]
