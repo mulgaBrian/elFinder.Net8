@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Authors>Trung Tran</Authors>
     <Company>N/A</Company>
     <Description>A plugin to enable quota management features on volumes (support FileSystemDriver only)</Description>
@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="5.2.1" />
-    <PackageReference Include="System.Diagnostics.EventLog" Version="8.0.2" />
+    <PackageReference Include="System.Diagnostics.EventLog" Version="10.0.14" />
   </ItemGroup>
 
   <ItemGroup>

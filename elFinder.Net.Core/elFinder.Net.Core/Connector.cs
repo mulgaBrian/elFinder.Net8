@@ -42,7 +42,7 @@ namespace elFinder.Net.Core
       cancellationToken.ThrowIfCancellationRequested();
 
       ArgumentNullException.ThrowIfNull(cmd);
-      ArgumentNullException.ThrowIfNull(nameof(cmd.Args));
+      //ArgumentNullException.ThrowIfNull(nameof(cmd.Args));
 
       var hasReqId = !string.IsNullOrEmpty(cmd.ReqId);
 
@@ -65,7 +65,7 @@ namespace elFinder.Net.Core
       cancellationToken.ThrowIfCancellationRequested();
 
       ArgumentNullException.ThrowIfNull(cmd);
-      ArgumentNullException.ThrowIfNull(nameof(cmd.Args));
+      //ArgumentNullException.ThrowIfNull(nameof(cmd.Args));
 
       ErrorResponse errResp;
       HttpStatusCode errSttCode = HttpStatusCode.OK;
@@ -740,7 +740,7 @@ namespace elFinder.Net.Core
       cancellationToken.ThrowIfCancellationRequested();
 
       ArgumentNullException.ThrowIfNull(cmd);
-      ArgumentNullException.ThrowIfNull(nameof(cmd.Args));
+      //ArgumentNullException.ThrowIfNull(nameof(cmd.Args));
 
       if (options.EnabledCommands?.Contains(cmd.Cmd) == false) throw new CommandNoSupportException();
 

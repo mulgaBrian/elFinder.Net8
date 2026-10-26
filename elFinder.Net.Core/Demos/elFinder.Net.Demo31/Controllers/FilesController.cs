@@ -3,8 +3,7 @@ using elFinder.Net.AspNetCore.Helper;
 using elFinder.Net.Core;
 using elFinder.Net.Drivers.FileSystem.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
+using ThumbGen;
 
 namespace elFinder.Net.Demo31.Controllers
 {
@@ -18,6 +17,7 @@ namespace elFinder.Net.Demo31.Controllers
     {
       _connector = connector;
       _driver = driver;
+      FFmpegBindings.Initialize("runtimes/win-x64/native/");
     }
 
     [Route("connector")]
@@ -41,9 +41,10 @@ namespace elFinder.Net.Demo31.Controllers
         IActionResult actionResult = ConnectorHelper.GetThumbResult(thumb);
         return actionResult;
       }
-      catch
+      catch(Exception ex)
       {
         //var msg = ex.Message;
+        Console.Write(ex.Message + Environment.NewLine);
         throw;
       }
     }
