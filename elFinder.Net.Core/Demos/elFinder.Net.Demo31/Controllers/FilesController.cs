@@ -14,16 +14,26 @@ namespace elFinder.Net.Demo31.Controllers
     private readonly IConnector _connector;
     private readonly IDriver _driver;
 
-    public FilesController(IConnector connector, IDriver driver)
+    public FilesController(IConnector connector, IDriver driver, IWebHostEnvironment env)
     {
       _connector = connector;
       _driver = driver;
       bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
       bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
       bool isOsx = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-      string os = "./runtimes/win-x64/native/";
+      //string os = "runtimes/win-x64/native/";
+      string here = Path.GetFullPath(".");
+      string os = string.Empty;
+      if (env.IsDevelopment())
+      {
+        os = Path.GetFullPath(".\\bin\\Debug\\net10.0\\runtimes\\win-x64\\native\\");
+      }
+      else
+      {
+        os = Path.GetFullPath(".\\runtimes\\win-x64\\native\\");
+      }
       if (isLinux) { os = "/usr/lib/x86_64-linux-gnu"; }
-      if (isOsx) { os = "./runtimes/osx-x64/native/"; }
+      if (isOsx) { os = "/usr/local/lib/"; } // /opt/homebrew/lib/
       FFmpegBindings.Initialize(os);
     }
 

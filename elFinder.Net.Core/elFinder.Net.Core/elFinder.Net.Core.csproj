@@ -17,7 +17,7 @@
       See the example project on Github for usage detail.
     </Description>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>8.1.5</Version>
+    <Version>8.1.6</Version>
     <OutputType>Library</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>annotations</Nullable>
@@ -27,6 +27,13 @@
     <Title>elfinder.Net8</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageOutputPath>$(OutputPath)..\..\Nuget</PackageOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageReleaseNotes>
+      v8.1.0: Changed from using ImageSharp to FFmpeg.Magick due to license issues.
+      v8.1.5: Changed the video thumbnail creator to ThumbGen.Magick with ffmpeg v8.
+      v8.1.6: Adjust FFmpeg.GPL package to last ffmpeg v8.1
+    </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,7 +47,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Include="FFmpeg.GPL" Version="[20260220.1.0]" />
+    <PackageReference Include="FFmpeg.GPL" Version="[20260316.1.0]" />
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="15.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.13" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.14" />

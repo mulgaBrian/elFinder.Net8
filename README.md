@@ -42,5 +42,5 @@ Plugins:
 For those who may get confused about which package to use, try and find the one that best suits your project.
 I create this with some modification that suits my use cases. Some of the main differences are:
 - Remove .NET Standard 2.0 and use ASP.NET .Net 8.
-- Add Video thumbnails using [Magick.NET](https://github.com/dlemstra/Magick.NET) & [ThumbGen](https://github.com/thesn10/ThumbGen)
+- Add Video thumbnails using [Magick.NET](https://github.com/dlemstra/Magick.NET) & [ThumbGen](https://github.com/thesn10/ThumbGen). Use NuGet package FFmpeg.GPL version 20260316.1.0. Have a look at the demo controller for details.
 - Follow the specification from https://github.com/Studio-42/elFinder/wiki more strictly.
