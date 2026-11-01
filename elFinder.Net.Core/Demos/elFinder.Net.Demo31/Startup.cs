@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.IO;
 
-namespace elFinder.Net.Demo31
+namespace elFinder.Net.Demo8
 {
   public class Startup
   {
@@ -20,7 +20,7 @@ namespace elFinder.Net.Demo31
     {
       Configuration = configuration;
       WebRootPath = env.WebRootPath;
-      TempPath = env.WebRootPath + "\\temp";
+      TempPath = Path.Join(env.ContentRootPath, "\\temp");
     }
 
     public static string WebRootPath { get; private set; }

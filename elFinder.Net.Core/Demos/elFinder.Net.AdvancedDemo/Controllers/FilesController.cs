@@ -150,7 +150,7 @@ namespace elFinder.Net.AdvancedDemo.Controllers
       var volume = new Volume(_driver,
           Startup.MapStoragePath($"./upload/{volumePath}"),
           Startup.TempPath,
-          $"/api/files/storage/upload/{volumePath}/",
+          $"", //$"/api/files/storage/upload/{volumePath}/",
           $"/api/files/thumb/",
           thumbnailDirectory: Startup.MapStoragePath($"./thumb/{volumePath}"))
       {

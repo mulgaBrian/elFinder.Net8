@@ -3,61 +3,7 @@
 @{
   ViewData["Title"] = "File manager";
 }
-@*<div class="container" style="margin-top: 100px">
-    <div class="modal fade" id="fileModal">
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Select Image</h4>
-            <span class="mx-auto"><i class="la la-warning"></i> Double click to select image.</span>
-            <span><button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button></span>
-            <ul class="nav float-end me-5">
-              <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Theme <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/windows-10/css/theme.css')">Windows 10</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/bootstrap-LibreICONS/css/theme-bootstrap-libreicons-svg.css')">Bootstrap</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/material/css/theme.css')">Material</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/material/css/theme-gray.css')">Material - Gray</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('/css/elfinder/themes/material/css/theme-light.css')">Material - Light</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0);" onclick="switchTheme('#')">Default</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <div class="modal-body">
-            <div id="elfinder"></div>
-          </div>
-          <div class="modal-footer">
-            <span>Double click image to select or  </span>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-hidden="true">Cancel</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="container">
-    <div class="row mb-2">
-      <label id="ArticleImage" class="control-label col-md-2" aria_describedby="helpBlock4"></label>
-      <div class="col-4 col-md-3 col-lg-2">
-        <img id="thumb" class="img img-fluid img-thumbnail" src="" width="150" />
-      </div>
-      <div class="col-7 col-md-6 col-lg-7">
-        <div class="input-group">
-          <input id="ArticleImage" class="form-control" onchange="javascript: getPreview(this);" placeholder="" style="z-index:0;">
-          <span class="input-group-btn">
-            <a data-bs-toggle="modal" class="btn btn-primary" href="javascript:void(0);" data-bs-target="#fileModal">Select</a>
-          </span>
-        </div>
-      </div>
-      <div class="col-1">
-        <span id="helpBlock4" class="help-block infobox">
-          <span data-bs-tooltip="tooltip" data-placement="top" title="Use the Select button to find an image to replace the current image used for this article on the front page."><i class="la la-question-circle la-2x"></i></span>
-        </span>
-      </div>
-    </div>
-  </div>*@
 <div id="elfinder"></div>
 
 @section scripts {
@@ -85,7 +31,11 @@
       baseUrl: '/lib/elfinder/',
       startPathHash: 'v1_',
       rememberLastDir: false, // Prevent elFinder saving in the Browser LocalStorage the last visited directory
+      reloadClearHistory: true,
       commands: appCmds,
+      contextmenu: contextMenu,
+      //lang: 'en',
+      requestType: 'post',
       //cssClass: 'elfinder-dialog-confirm',
       height: '600',
       uiOptions: { // UI buttons available to the user
@@ -108,9 +58,6 @@
           ['search']
         ]
       },
-      contextmenu: contextMenu,
-      lang: 'en',
-      requestType: 'post',
       //onlyMimes: ["image", "text/plain"] // Get files of requested mime types only
       soundPath: '/css/elfinder/sounds/',
     //  getFileCallback: function (file, elf) {
@@ -134,20 +81,20 @@
       //  });
     });
 
-    function getPreview(data) {
-      //alert("getPreview");
-      var path = data.value;
-      if (path != undefined) {
-        path = path.replace(/\\/g, "/");
-        if (!path.startsWith("/images")) {
-          path = "/images" + path;
-        }
-        //if ($('#ArticleImage').val() != path) {
-        $('#ArticleImage').val(path);
-        //}
-      }
-      $('#thumb').attr('src', path);
-    };
+    // function getPreview(data) {
+    //   //alert("getPreview");
+    //   var path = data.value;
+    //   if (path != undefined) {
+    //     path = path.replace(/\\/g, "/");
+    //     if (!path.startsWith("/images")) {
+    //       path = "/images" + path;
+    //     }
+    //     //if ($('#ArticleImage').val() != path) {
+    //     $('#ArticleImage').val(path);
+    //     //}
+    //   }
+    //   $('#thumb').attr('src', path);
+    // };
 
     function switchTheme(href) {
       $('link#elfinder-theme').attr('href', href);

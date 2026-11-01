@@ -6,24 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
 using ThumbGen;
 
-namespace elFinder.Net.Demo31.Controllers
+namespace elFinder.Net.Demo8.Controllers
 {
-  [Route("api/files")]
+  [Route("/api/files")]
   public class FilesController : Controller
   {
     private readonly IConnector _connector;
     private readonly IDriver _driver;
+    private readonly IWebHostEnvironment _env;
 
     public FilesController(IConnector connector, IDriver driver, IWebHostEnvironment env)
     {
+      _env = env;
       _connector = connector;
       _driver = driver;
-      bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+      //bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
       bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
       bool isOsx = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
       //string os = "runtimes/win-x64/native/";
-      string here = Path.GetFullPath(".");
-      string os = string.Empty;
+      //string here = Path.GetFullPath(".");
+      string os;
       if (env.IsDevelopment())
       {
         os = Path.GetFullPath(".\\bin\\Debug\\net10.0\\runtimes\\win-x64\\native\\");
@@ -34,11 +36,19 @@ namespace elFinder.Net.Demo31.Controllers
       }
       if (isLinux) { os = "/usr/lib/x86_64-linux-gnu"; }
       if (isOsx) { os = "/usr/local/lib/"; } // /opt/homebrew/lib/
-      FFmpegBindings.Initialize(os);
+      try { 
+        FFmpegBindings.Initialize(os);
+      }
+      catch(Exception ex) 
+      {
+        Console.WriteLine(ex.Message);
+      }
     }
 
     [Route("connector")]
     public async Task<IActionResult> Connector()
+    {
+      try
     {
       await SetupConnectorAsync();
       Core.Models.Command.ConnectorCommand cmd = ConnectorHelper.ParseCommand(Request);
@@ -46,6 +56,12 @@ namespace elFinder.Net.Demo31.Controllers
       Core.Models.Result.ConnectorResult conResult = await _connector.ProcessAsync(cmd, ccTokenSource);
       IActionResult actionResult = conResult.ToActionResult(HttpContext);
       return actionResult;
+    }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"FileSystem.Connector {ex.Message}");
+        return Json(new { error = ex.Message });
+      }
     }
 
     [Route("thumb/{target}")]
@@ -61,7 +77,7 @@ namespace elFinder.Net.Demo31.Controllers
       catch(Exception ex)
       {
         //var msg = ex.Message;
-        Console.Write(ex.Message + Environment.NewLine);
+        Console.WriteLine(ex.Message + Environment.NewLine);
         throw;
       }
     }
@@ -72,15 +88,16 @@ namespace elFinder.Net.Demo31.Controllers
       //for (var i = 0; i < 5; i++)
       //{
       var volume = new Volume(_driver,
-          Startup.MapPath("images"),
+          PathHelper.GetFullPath(Path.Join(_env.WebRootPath, "images")), //Startup.MapPath("images"),
           Startup.TempPath,
-          "images",
-          "/api/files/thumb/",
-          thumbnailDirectory: PathHelper.GetFullPath("./thumb"))
+          $"",
+          $"/api/files/thumb/",
+          thumbnailDirectory: PathHelper.GetFullPath(Path.Join(_env.WebRootPath, ".thumb")))
       {
-        StartDirectory = Startup.MapPath("images"),
+        StartDirectory = PathHelper.GetFullPath(Path.Join(_env.WebRootPath,"images")),
         Name = "Images",
-        MaxUploadConnections = 3
+        MaxUploadConnections = 3,
+        VolumeId = "v1_"
       };
 
       _connector.AddVolume(volume);

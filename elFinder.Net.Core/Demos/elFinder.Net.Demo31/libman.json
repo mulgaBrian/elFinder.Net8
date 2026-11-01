@@ -39,7 +39,7 @@
     },
     {
       "provider": "cdnjs",
-      "library": "elfinder@2.1.69",
+      "library": "elfinder@2.1.70",
       "destination": "wwwroot/lib/elfinder"
     }
   ]

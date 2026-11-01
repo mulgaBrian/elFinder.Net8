@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace elFinder.Net.Demo31
+namespace elFinder.Net.Demo8
 {
     public class Program
     {

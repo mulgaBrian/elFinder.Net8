@@ -12,24 +12,32 @@ namespace elFinder.Net.Core.Services.Drawing
       //return false;
       string ext = fileExtension.ToLower();
 
-      return ext == ".mp4"
+      if (ext == ".mp4"
           || ext == ".mpeg"
+          || ext == ".mpg"
           || ext == ".mkv"
           || ext == ".m4v"
           || ext == ".avi"
           || ext == ".mov"
           || ext == ".webm"
-          || ext == ".wmv";
+          || ext == ".wmv")
+      {
+        return true;
+      }
+      else { return false; }
 
     }
 
     public async Task<ImageWithMimeType> GenerateThumbnailAsync(IFile file, int size,
         bool keepAspectRatio, CancellationToken cancellationToken = default)
     {
-      ImageWithMimeType thumb = await CreateThumbnailUsingFfmpeg(file.FullName, size);
+      if (CanProcessFile(file.Extension))
+      {
+        ImageWithMimeType thumb = await CreateThumbnailUsingFfmpeg(file.FullName, size);
 
-      return await Task.FromResult(thumb);
-      //return Task.FromResult(default(ImageWithMimeType));
+        return await Task.FromResult(thumb);
+      }
+      return null;
     }
 
     public async Task<ImageWithMimeType> GenerateThumbnailInBackgroundAsync(IFile file, int size,
@@ -38,7 +46,6 @@ namespace elFinder.Net.Core.Services.Drawing
       ImageWithMimeType thumb = await CreateThumbnailUsingFfmpeg(file.FullName, size);
 
       return await Task.FromResult(thumb);
-      //return await Task.FromResult(default(ImageWithMimeType));
     }
 
     protected static async Task<ImageWithMimeType> CreateThumbnailUsingFfmpeg(string mediaFilePath, int size)
@@ -87,21 +94,25 @@ namespace elFinder.Net.Core.Services.Drawing
             .WithFFmpegVideoCapture()
             .UseMagickRenderer()
             .ConfigureRendering(renderingOpts => renderingOpts
-                .WithFrameSize(-1, 108)
+                .WithFrameSize(48, 48)
                 .WithTiling(options =>
                 {
                   options.Columns = 1;
                   options.Rows = 1;
                 })
-                .PreserveFrameAspect(true))
+                .PreserveFrameAspect(false))
             .Build(inputFile);
 
         var opts = new ThumbGenOptions()
-            .WithStartTime(TimeSpan.FromSeconds(5))
+            .WithStartTime(captureTime)
             .WithOutputFilename(Path.GetFullPath(temporaryFile));
 
         await thumbnailGenerator.ExecuteAsync(opts);
         File.Move(temporaryFile, outputFile, overwrite: true);
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine("ThumbGen {0}", ex.Message);
       }
       finally
       {

@@ -1,20 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace elFinder.Net.Demo31.Pages
+namespace elFinder.Net.Demo8.Pages
 {
-    public class IndexModel : PageModel
+  public class IndexModel(ILogger<IndexModel> logger) : PageModel
+  {
+    private readonly ILogger<IndexModel> _logger = logger;
+
+    public void OnGet()
     {
-        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
-
-        public void OnGet()
-        {
-
-        }
     }
+  }
 }
