@@ -17,7 +17,7 @@
       See the example project on Github for usage detail.
     </Description>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>8.1.7</Version>
+    <Version>8.1.10</Version>
     <OutputType>Library</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>annotations</Nullable>
@@ -34,6 +34,7 @@
       v8.1.5: Changed the video thumbnail creator to ThumbGen.Magick with ffmpeg v8.
       v8.1.6: Adjust FFmpeg.GPL package to last ffmpeg v8.1.
       v8.1.7: Add check for video thumbnails to make sure is video extension.
+      v8.1.10: Clean up video thumbs extra jpg files created to make thumbnails for videos.
     </PackageReleaseNotes>
   </PropertyGroup>
 

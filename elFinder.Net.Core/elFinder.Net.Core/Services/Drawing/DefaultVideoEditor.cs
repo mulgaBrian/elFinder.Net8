@@ -61,6 +61,8 @@ namespace elFinder.Net.Core.Services.Drawing
       var memoryStream = new MemoryStream();
       await img.WriteAsync(memoryStream, MagickFormat.Jpg);
       memoryStream.Position = 0;
+      //clean up extra jpg
+      File.Delete(outFilePath);
 
       return await Task.FromResult(new ImageWithMimeType(mimeType, memoryStream));
     }
