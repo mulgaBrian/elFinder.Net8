@@ -19,6 +19,10 @@ This plugin intercepts all method calls of `IConnector` and `IDriver` instances 
 Since file management is a complex topic and the requirements are diverse, here are some ways to customize the library:
 1. Override the default implementation
 2. Use interceptors (as those plugins here which use [Castle DynamicProxy](http://www.castleproject.org/projects/dynamicproxy/) and built-in .NET Core DI container).
+I changed this with some modification that suits my use cases. Some of the main differences are:
+- Remove .NET Standard 2.0 and use ASP.NET .Net10
+- Add Video thumbnails using [Magick.NET](https://github.com/dlemstra/Magick.NET) & [ThumbGen](https://github.com/thesn10/ThumbGen). Use NuGet package FFmpeg.GPL version 20260316.1.0. Have a look at the demo controller for details.
+- Follow the specification from https://github.com/Studio-42/elFinder/wiki more strictly.
 
 Some important classes and their descriptions:
 - `IConnector/Connector`: the backend connector which handles elFinder commands sent from clients.
@@ -40,7 +44,3 @@ Plugins:
 ## Credits
 **elFinder.Net8** is based on the project [elFinder.Net.Core](https://github.com/trannamtrung1st/elFinder.Net.Core) of trannamtrung1st. Many thanks for the excellent works.
 For those who may get confused about which package to use, try and find the one that best suits your project.
-I create this with some modification that suits my use cases. Some of the main differences are:
-- Remove .NET Standard 2.0 and use ASP.NET .Net 8.
-- Add Video thumbnails using [Magick.NET](https://github.com/dlemstra/Magick.NET) & [ThumbGen](https://github.com/thesn10/ThumbGen). Use NuGet package FFmpeg.GPL version 20260316.1.0. Have a look at the demo controller for details.
-- Follow the specification from https://github.com/Studio-42/elFinder/wiki more strictly.
