@@ -38,9 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="elFinder.Net.Core">
-      <HintPath>..\elFinder.Net.Core\bin\Debug\net8.0\elFinder.Net.Core.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\elFinder.Net.Core\elFinder.Net.Core.csproj" />
   </ItemGroup>
   <Target Name="CopyPackageAfterReleaseBuild" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
     <ItemGroup>
